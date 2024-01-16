@@ -38,5 +38,5 @@ const formatTimeStr = (timeStr) => {
 }
 
 module.exports = {
-  getDateTIme, formatTimeStr
+  getDateTime, formatTimeStr
 }
