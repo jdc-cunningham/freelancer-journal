@@ -58,6 +58,7 @@ const addClient = async (req, res) => {
     (err, qres) => {
       if (err) {
         console.error('failed to insert client', err);
+
         res.status(400).send({
           err: true,
           msg: 'failed to add client'
@@ -71,17 +72,54 @@ const addClient = async (req, res) => {
   );
 };
 
-const getClient = async (req, res) => (
-  new Promise ((resolve, reject) => {
+const getClient = async (req, res) => {
+  const { id } = req.body;
 
-  })
-);
+  pool.query(
+    `SELECT * FROM clients WHERE id = ?`,
+    [id],
+    (err, qres) => {
+      if (err) {
+        console.error('failed to get client', err);
 
-const searchClients = async (req, res) => (
-  new Promise ((resolve, reject) => {
+        res.status(400).send({
+          err: true,
+          msg: 'failed to get client'
+        });
+      } else {
+        res.status(200).send({
+          err: false,
+          client: qres[0]
+        });
+      }
+    }
+  );
+};
 
-  })
-);
+const searchClients = async (req, res) => {
+  const { partialName } = req.body;
+  const partialNameWildcard = '%' + partialName + '%';
+
+  pool.query(
+    `SELECT * FROM clients WHERE name LIKE ?`,
+    [partialNameWildcard],
+    (err, qres) => {
+      if (err) {
+        console.error('failed to search clients', err);
+
+        res.status(400).send({
+          err: true,
+          msg: 'failed to search clients'
+        });
+      } else {
+        res.status(200).send({
+          err: false,
+          clients: qres
+        });
+      }
+    }
+  );
+};
 
 const deleteClient = async (req, res) => (
   new Promise ((resolve, reject) => {
