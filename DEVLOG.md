@@ -12,6 +12,22 @@ I was thinking about putting a 1TB SSD on a raspberry pi at some point, I have a
 
 Distracted
 
+3:18 PM
+
+This concept is for a general note taking app (another project)
+
+<img src="./another-concept.JPG"/>
+
+But same idea, sidebar, look up... little icons on left of sidebar tab like deadline
+
+The right side, it will be scrollable with content editable sections (supports photo embed)
+
+3:23 PM
+
+I feel fortunate to know the skills that I know
+
+I can just build stuff/will them into existence it's great
+
 
 
 ---
