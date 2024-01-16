@@ -30,27 +30,39 @@ const addClient = async (req, res) => (
 );
 
 const getClient = async (req, res) => (
-  
+  new Promise ((resolve, reject) => {
+
+  })
 );
 
 const searchClients = async (req, res) => (
-  
+  new Promise ((resolve, reject) => {
+
+  })
 );
 
 const deleteClient = async (req, res) => (
-  
+  new Promise ((resolve, reject) => {
+
+  })
 );
 
 const updateClient = async (req, res) => (
-  
+  new Promise ((resolve, reject) => {
+
+  })
 );
 
 const addClientNote = async (req, res) => (
-  
+  new Promise ((resolve, reject) => {
+
+  })
 );
 
 const updateClientNote = async (req, res) => (
-  
+  new Promise ((resolve, reject) => {
+
+  })
 );
 
 module.exports = {
