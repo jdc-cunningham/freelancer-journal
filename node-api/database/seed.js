@@ -47,7 +47,7 @@ connection.query(
       '`details` longtext,' +
       '`created` datetime NOT NULL,' +
       'PRIMARY KEY (`id`),' +
-      'INDEX `name` (`name`),' + // important for speed
+      'INDEX `name` (`name`)' + // important for speed
      ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',
   (error, results, fields) => {
       if (error) {
@@ -64,7 +64,7 @@ connection.query(
       '`client_id` int(11) NOT NULL,' +
       '`note` longtext NOT NULL,' +
       '`created` datetime NOT NULL,' +
-      'PRIMARY KEY (`id`),' +
+      'PRIMARY KEY (`id`)' +
      ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',
   (error, results, fields) => {
       if (error) {
