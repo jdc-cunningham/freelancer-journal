@@ -1,10 +1,12 @@
 .RightBody {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   width: 75%;
   height: 100%;
+  padding-top: 50px;
 
   &.active-client {
     align-items: flex-start;

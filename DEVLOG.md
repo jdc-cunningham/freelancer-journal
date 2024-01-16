@@ -28,6 +28,14 @@ I feel fortunate to know the skills that I know
 
 I can just build stuff/will them into existence it's great
 
+3:57 PM
+
+Making progress, I've already deviated from the design
+
+I woke up at 1 PM today so my sleep pattern is really bad already
+
+Wasted time
+
 
 
 ---
