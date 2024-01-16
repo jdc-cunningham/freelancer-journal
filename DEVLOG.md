@@ -1,8 +1,26 @@
+01/16/2024
+
+2:56 PM
+
+Still have not landed a gig but working for a client I worked with in the past at least
+
+I've been able to get by by moving my balances around eg. pay this card, pull that money out and pay the other card... it's bad
+
+I was thinking about putting a 1TB SSD on a raspberry pi at some point, I have a few running as servers at home but they're on the SD card/those can fail. Granted I buy the more expensive sandisk gold
+
+3:09 PM
+
+Distracted
+
+
+
+---
+
 01/02/2024
 
 2:11 PM
 
-So I'm short by like $1.5K/mo or about $370/wk
+So I'm short by like `$1.5K`/mo or about `$370`/wk
 
 right now I work 4x10s (labor) so I spend my worknights applying to jobs and applying to freelance
 
