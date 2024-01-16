@@ -1,5 +1,12 @@
 .LeftSidebar {
   width: 25%;
   height: 100%;
+  padding-right: 0.5rem;
   border-right: 1px solid #ccc;
+}
+
+.LeftSidebar__search-bar {
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  width: 100%;
 }

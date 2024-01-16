@@ -1,4 +1,24 @@
 .RightBody {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   width: 75%;
   height: 100%;
+
+  &.active-client {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  h1 {
+    color: #505050;
+  }
+}
+
+.RightBody__add-client {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }

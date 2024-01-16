@@ -3,7 +3,7 @@ import './LeftSidebar.scss'
 const LeftSidebar = (props) => {
   return (
     <div className="LeftSidebar">
-      <input type="text" placeholder="search name, topic"/>
+      <input className="LeftSidebar__search-bar" type="text" placeholder="search name, topic"/>
     </div>
   );
 }
