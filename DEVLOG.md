@@ -36,6 +36,28 @@ I woke up at 1 PM today so my sleep pattern is really bad already
 
 Wasted time
 
+4:08 PM
+
+There's a lot of work to be done here still
+
+Building this is not helping me make progress on my actual jobs but it is nice to build it as needed/know the desired features
+
+4:22 PM
+
+Distractions...
+
+Damn... I need and API and a database?!!! REEEEEEEEE
+
+4:31 PM
+
+Since I'm using contenteditable there will be a table that is LONGTEXT each block is an entry
+
+The blocks are time based, not automatic but if you haven't touched it in a while/add new one or continue editing previous entry
+
+4:36 PM
+
+Distracted, this is trivial work just setup
+
 
 
 ---

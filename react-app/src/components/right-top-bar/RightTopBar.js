@@ -1,6 +1,5 @@
 import './RightTopBar.scss'
 
-
 const RightTopBar = (props) => {
   return (
     <div className="RightTopBar">
