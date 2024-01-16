@@ -47,16 +47,17 @@ connection.query(
       '`details` longtext,' +
       '`created` datetime NOT NULL,' +
       'PRIMARY KEY (`id`),' +
-      'INDEX `name` (`name`)' + // important for speed
+      'INDEX `name` (`name`),' + // important for speed
      ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',
   (error, results, fields) => {
       if (error) {
-          console.log('error creating table emails:', error.sqlMessage);
+          console.log('error creating table clients:', error.sqlMessage);
           return;
       }
   }
 )
 
+// client notes table
 connection.query(
   'CREATE TABLE `client_notes` (' +
       '`id` int(11) NOT NULL AUTO_INCREMENT,' +
@@ -67,7 +68,7 @@ connection.query(
      ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',
   (error, results, fields) => {
       if (error) {
-          console.log('error creating table emails:', error.sqlMessage);
+          console.log('error creating table clients:', error.sqlMessage);
           return;
       }
   }
