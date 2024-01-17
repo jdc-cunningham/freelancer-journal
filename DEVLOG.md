@@ -68,6 +68,10 @@ I feel slower now but I gotta keep going, supposed to be using this as a tool
 
 - [ ] load client from click (done time)
 
+9:13 PM
+
+Hmm... I don't like this idea of "note"
+
 
 
 ---

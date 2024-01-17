@@ -8,7 +8,7 @@ app.use(cors());
 
 const {
   addClient, getClient, searchClients, deleteClient, getLastOpenedClients,
-  addOpenedClient, deleteLastOpenedClient
+  addOpenedClient, deleteLastOpenedClient, addClientNote
 } = require('./methods');
 
 app.use(
@@ -25,6 +25,7 @@ app.post('/delete-client', deleteClient); // not using REST methods eg. DELETE
 app.get('/last-opened-clients', getLastOpenedClients);
 app.post('/add-opened-client', addOpenedClient);
 app.post('/delete-last-opened-client', deleteLastOpenedClient);
+app.post('/add-client-note', addClientNote);
 
 app.listen(port, () => {
   console.log(`App running... on port ${port}`);

@@ -13,11 +13,19 @@ const baseApiPath = window.location.href.includes('localhost')
 function App() {
   const [showAddClientModal, setShowAddClientModal] = useState(false);
   const [openClient, setOpenClient] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+
+  useEffect(() => {
+    console.log(openClient);
+    if (openClient) {
+      setRefresh(false);
+    }
+  }, [openClient]);
 
   return (
     <div className="App">
-      <LeftSidebar baseApiPath={baseApiPath} openClient={openClient} setOpenClient={setOpenClient}/>
-      <RightBody setShowAddClientModal={setShowAddClientModal} openClient={openClient}/>
+      <LeftSidebar baseApiPath={baseApiPath} openClient={openClient} setOpenClient={setOpenClient} refresh={refresh}/>
+      <RightBody setShowAddClientModal={setShowAddClientModal} openClient={openClient} baseApiPath={baseApiPath} setRefresh={setRefresh}/>
       {showAddClientModal && <AddClient baseApiPath={baseApiPath} setShowAddClientModal={setShowAddClientModal}/>}
     </div>
   );

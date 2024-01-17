@@ -4,7 +4,7 @@ import axios from 'axios';
 import './LeftSidebar.scss'
 
 const LeftSidebar = (props) => {
-  const { baseApiPath, openClient, setOpenClient } = props;
+  const { baseApiPath, openClient, setOpenClient, refresh } = props;
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTimeout, setSearchTimeout] = useState(null);
@@ -27,6 +27,24 @@ const LeftSidebar = (props) => {
     ))
   );
 
+  const getOpenClient = (clientId) => {
+    axios.post(
+      `${baseApiPath}/get-client`,
+      { id: clientId }
+    )
+    .then((res) => {
+      if (res.status === 200) {
+        setOpenClient(res.data.client);
+      } else {
+        alert('Failed to get opened client: ' + res.data.msg);
+      }
+    })
+    .catch((err) => {
+      alert(`Failed to get opened client:\n${err.response.data?.msg}`);
+      console.error(err);
+    });
+  }
+
   const getLastOpenedClients = () => {
     axios.get(
       `${baseApiPath}/last-opened-clients`,
@@ -36,14 +54,13 @@ const LeftSidebar = (props) => {
         setOpenedClients(res.data.clients);
 
         if (!openClient) {
-          setOpenClient(res.data.clients[0]);
+          getOpenClient(res.data.clients[0].client_id)
         }
       } else {
         alert('Failed to get last opened clients: ' + res.data.msg);
       }
     })
     .catch((err) => {
-      console.log(err);
       alert(`Failed to get last opened clients:\n${err.response.data?.msg}`);
       console.error(err);
     });
@@ -73,11 +90,17 @@ const LeftSidebar = (props) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       alert(`Failed to search clients:\n${err.response.data?.msg}`);
       console.error(err);
     });
   }
+
+  useEffect(() => {
+    if (refresh) {
+      console.log('refresh');
+      getLastOpenedClients();
+    }
+  }, [refresh])
 
   useEffect(() => {
     if (searchTerm) {
@@ -95,7 +118,6 @@ const LeftSidebar = (props) => {
           }
         })
         .catch((err) => {
-          console.log(err);
           alert(`Failed to search clients:\n${err.response.data?.msg}`);
           console.error(err);
         });

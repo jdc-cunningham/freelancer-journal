@@ -63,7 +63,7 @@ connection.query(
   'CREATE TABLE `client_notes` (' +
       '`id` int(11) NOT NULL AUTO_INCREMENT,' +
       '`client_id` int(11) NOT NULL,' +
-      '`note` longtext NOT NULL,' +
+      '`note` longtext,' +
       '`created` datetime NOT NULL,' +
       'PRIMARY KEY (`id`)' +
      ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',

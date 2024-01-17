@@ -76,13 +76,37 @@ const addClient = async (req, res) => {
   );
 };
 
+const _getClientNotes = (client_id) => (
+  new Promise((resolve, reject) => {
+    pool.query(
+      `SELECT * FROM client_notes WHERE client_id = ? order by id ASC`,
+      [client_id],
+      (err, qres) => {
+        if (err) {
+          console.error('failed to get client notes', err);
+  
+          reject({
+            err: true,
+            msg: 'failed to get client'
+          });
+        } else {
+          resolve({
+            err: false,
+            client: qres[0]
+          });
+        }
+      }
+    );
+  })
+);
+
 const getClient = async (req, res) => {
   const { id } = req.body;
 
   pool.query(
     `SELECT * FROM clients WHERE id = ?`,
     [id],
-    (err, qres) => {
+    async (err, qres) => {
       if (err) {
         console.error('failed to get client', err);
 
@@ -91,10 +115,24 @@ const getClient = async (req, res) => {
           msg: 'failed to get client'
         });
       } else {
-        res.status(200).send({
-          err: false,
-          client: qres[0]
-        });
+        try {
+          const clientNotes = await _getClientNotes(qres[0].id);
+
+          res.status(200).send({
+            err: false,
+            client: {
+              ...qres[0],
+              clientNotes
+            }
+          });
+        } catch (e) {
+          console.error(e);
+
+          res.status(400).send({
+            err: true,
+            msg: 'failed to get client notes'
+          });
+        }
       }
     }
   );
@@ -169,7 +207,29 @@ const deleteClient = async (req, res) => {
 
 const updateClient = async (req, res) => {};
 
-const addClientNote = async (req, res) => {};
+const addClientNote = async (req, res) => {
+  const { client_id } = req.body;
+  const now = formatTimeStr(getDateTime());
+
+  pool.query(
+  `INSERT INTO client_notes SET id = ?, client_id = ?, note = ?, created = ?`,
+    [null, client_id, null, now],
+    (err, qres) => {
+      if (err) {
+        console.error('failed to add client note', err);
+
+        res.status(400).send({
+          err: true,
+          msg: 'failed to add client note'
+        });
+      } else {
+        res.status(201).send({
+          err: false,
+        });
+      }
+    }
+  );
+};
 
 const updateClientNote = async (req, res) => {};
 
@@ -231,5 +291,6 @@ module.exports = {
   updateClientNote,
   getLastOpenedClients,
   addOpenedClient,
-  deleteLastOpenedClient
+  deleteLastOpenedClient,
+  addClientNote
 }
