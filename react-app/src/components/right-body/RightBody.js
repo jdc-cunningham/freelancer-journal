@@ -11,10 +11,8 @@ const RightBody = (props) => {
   const { setShowAddClientModal, openClient, baseApiPath, setRefresh } = props;
   const clientNoteRefs = useRef([]); // https://stackoverflow.com/a/57810772
   const [updateTimeout, setUpdateTimeout] = useState(null);
-  const rangeRef = useRef(null);
   const posRef = useRef(null);
   const elRef = useRef(null);
-  const keyUpBoundRef = useRef(null);
 
   // https://stackoverflow.com/a/36281449
   const getBase64 = (file, callback, ref, id, client_id) => {
@@ -127,10 +125,6 @@ const RightBody = (props) => {
             setUpdateTimeout(
               setTimeout(() => {
                 elRef.current = e.target;
-
-                const range = document.getSelection().getRangeAt(0);
-
-                rangeRef.current = range;
     
                 updateClientNote(clientNote.id, clientNote.client_id, e.target.innerHTML)
               }, 250));
@@ -192,6 +186,8 @@ const RightBody = (props) => {
     var el = elRef.current;
     var range = document.createRange();
     var sel = window.getSelection();
+
+    if (!el.childNodes[posRef.current[1]]) return; // this causes a fatal error if it doesn't exist
     
     range.setStart(el.childNodes[posRef.current[1]], 1); // in the end this does not use the x offset
     range.collapse(true)
@@ -199,29 +195,6 @@ const RightBody = (props) => {
     sel.removeAllRanges()
     sel.addRange(range)
   }
-
-  useEffect(() => {
-    if (openClient && !keyUpBoundRef.current) {
-      document.querySelectorAll('.RightBody__client-note-editable').forEach(editable => {
-        console.log('nodes', Array.from(editable.childNodes));
-        Array.from(editable.childNodes).forEach(node => {
-          console.log('node', node);
-          node.addEventListener('keyup', (e) => {
-            console.log(e);
-            // const caretPos = getCaretPosition(e.target);
-      
-            // console.log(e);
-      
-            // if (caretPos) {
-            //   console.log('caret updated', caretPos);
-            //   posRef.current = caretPos;
-            // }
-          });
-        });
-      });
-      keyUpBoundRef.current = true;
-    }
-  }, [openClient]);
 
   useEffect(() => {
     document.addEventListener('click', (e) => {

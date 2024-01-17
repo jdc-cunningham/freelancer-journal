@@ -12,7 +12,19 @@ This answer here https://stackoverflow.com/a/3656524 has a working example but y
 
 Oh man... I have it working for 1 but not more lines
 
+2:36 AM
 
+Damn... I am not getting this... the issue I was trying to fix is when you arrow around, the caret position is not preserved
+
+Because the emitted event is not the same as a click target (accurate). The keyup event target is the parent not the child node.
+
+Hmm...
+
+There's also a noticeable lag on the click caret pos
+
+As in if I type too fast after clicking the position is wrong
+
+---
 
 01/16/2024
 
