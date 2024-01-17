@@ -13,3 +13,7 @@ body * {
 h1 {
   font-size: 2rem;
 }
+
+b {
+  font-weight: bold;
+}

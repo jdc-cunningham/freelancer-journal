@@ -92,7 +92,7 @@ const _getClientNotes = (client_id) => (
         } else {
           resolve({
             err: false,
-            client: qres[0]
+            data: qres
           });
         }
       }
@@ -231,7 +231,28 @@ const addClientNote = async (req, res) => {
   );
 };
 
-const updateClientNote = async (req, res) => {};
+const updateClientNote = async (req, res) => {
+  const { note_id, client_id, note_content } = req.body;
+
+  pool.query(
+    `UPDATE client_notes set note = ? WHERE id = ? AND client_id = ?`,
+    [note_content, note_id, client_id],
+    (err, qres) => {
+      if (err) {
+        console.error('failed to update client note', err);
+
+        res.status(400).send({
+          err: true,
+          msg: 'failed to update client note'
+        });
+      } else {
+        res.status(200).send({
+          err: false,
+        });
+      }
+    }
+  );
+};
 
 // used to populate app
 const getLastOpenedClients = async (req, res) => {
@@ -292,5 +313,6 @@ module.exports = {
   getLastOpenedClients,
   addOpenedClient,
   deleteLastOpenedClient,
-  addClientNote
+  addClientNote,
+  updateClientNote
 }

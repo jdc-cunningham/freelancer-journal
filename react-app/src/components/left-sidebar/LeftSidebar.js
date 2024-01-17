@@ -52,10 +52,7 @@ const LeftSidebar = (props) => {
     .then((res) => {
       if (res.status === 200) {
         setOpenedClients(res.data.clients);
-
-        if (!openClient) {
-          getOpenClient(res.data.clients[0].client_id)
-        }
+        getOpenClient(res.data.clients[0].client_id);
       } else {
         alert('Failed to get last opened clients: ' + res.data.msg);
       }
@@ -97,7 +94,6 @@ const LeftSidebar = (props) => {
 
   useEffect(() => {
     if (refresh) {
-      console.log('refresh');
       getLastOpenedClients();
     }
   }, [refresh])

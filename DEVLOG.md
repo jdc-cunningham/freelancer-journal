@@ -72,6 +72,30 @@ I feel slower now but I gotta keep going, supposed to be using this as a tool
 
 Hmm... I don't like this idea of "note"
 
+10:16 PM
+
+lol my D key is dying
+
+10:36 PM
+
+Distracted
+
+11:07 PM
+
+Lol this was worth it
+
+<img src="./drag-drop-demo.gif"/>
+
+The position is wrong/assumed end of content
+
+I remember cursor being a PITA for WYSIWYG editors
+
+11:22 PM
+
+omg yes... I added the drag-drop in caret place
+
+that's a good dopamine hit right there mmhmm
+
 
 
 ---
