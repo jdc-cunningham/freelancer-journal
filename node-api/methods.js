@@ -57,8 +57,8 @@ const addClient = async (req, res) => {
   }
 
   pool.query(
-    `INSERT INTO clients SET id = ?, name = ?, topics = ?, rate = ?, rate_type = ?, details = ?, created = ?`,
-    [null, name, topics, rate, rate_type, details, now],
+    `INSERT INTO clients SET id = ?, name = ?, topics = ?, rate = ?, rate_type = ?, details = ?, created = ?, last_updated`,
+    [null, name, topics, rate, rate_type, details, now, now],
     (err, qres) => {
       if (err) {
         console.error('failed to insert client', err);
@@ -173,6 +173,13 @@ const addClientNote = async (req, res) => {};
 
 const updateClientNote = async (req, res) => {};
 
+// used to populate app
+const getLastOpenedClients = async (req, res) => {};
+
+const addLastOpenedClient = async (req, res) => {};
+
+const deleteLastOpenedClient = async (req, res) => {};
+
 module.exports = {
   addClient,
   getClient,
@@ -180,5 +187,8 @@ module.exports = {
   deleteClient,
   updateClient,
   addClientNote,
-  updateClientNote
+  updateClientNote,
+  getLastOpenedClients,
+  addLastOpenedClient,
+  deleteLastOpenedClient
 }

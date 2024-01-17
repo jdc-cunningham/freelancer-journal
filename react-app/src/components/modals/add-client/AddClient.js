@@ -31,7 +31,7 @@ const AddClient = (props) => {
       `${baseApiPath}/add-client`,
       clientInfo
     )
-    .then((res) => { // pointing this out I use both .then and async/await
+    .then((res) => {
       if (res.status === 201) {
         alert('Client added');
         setShowAddClientModal(false);

@@ -46,6 +46,7 @@ connection.query(
       '`rate_type` varchar(255),' +
       '`details` longtext,' +
       '`created` datetime NOT NULL,' +
+      '`last_updated` datetime NOT NULL,' +
       'PRIMARY KEY (`id`),' +
       'INDEX `name` (`name`)' + // important for speed
      ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',
@@ -69,6 +70,22 @@ connection.query(
   (error, results, fields) => {
       if (error) {
           console.log('error creating table clients:', error.sqlMessage);
+          return;
+      }
+  }
+)
+
+// last opened clients
+connection.query(
+  'CREATE TABLE `last_opened_clients` (' +
+      '`id` int(11) NOT NULL AUTO_INCREMENT,' +
+      '`client_id` int(11) NOT NULL,' +
+      '`opened` datetime NOT NULL,' +
+      'PRIMARY KEY (`id`)' +
+     ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',
+  (error, results, fields) => {
+      if (error) {
+          console.log('error creating table last_opened_clients:', error.sqlMessage);
           return;
       }
   }
