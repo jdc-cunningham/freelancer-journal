@@ -7,6 +7,8 @@ import DeleteIcon from '../../assets/icons/recycle-bin-line-icon.svg';
 
 import RightTopBar from '../right-top-bar/RightTopBar';
 
+import { prettyDate } from '../../utils';
+
 const RightBody = (props) => {
   const { setShowAddClientModal, openClient, baseApiPath, setRefresh } = props;
   const clientNoteRefs = useRef([]); // https://stackoverflow.com/a/57810772
@@ -113,7 +115,7 @@ const RightBody = (props) => {
   const renderClientNotes = (clientNotes) => (
     clientNotes?.map((clientNote, index) => (
       <div key={index} className="RightBody__client-note">
-        <p><b>Created:</b> {clientNote.created.split('T').join(' ')}</p>
+        <p><b>Created:</b> {prettyDate(clientNote.created)}</p>
         <div
           ref={el => clientNoteRefs.current[index] = el}
           className="RightBody__client-note-editable"
@@ -143,7 +145,7 @@ const RightBody = (props) => {
     
             getBase64(e.dataTransfer.files[0], imgDrop, clientNoteRefs.current[index], clientNote.id, clientNote.client_id);
           }}
-          dangerouslySetInnerHTML={{__html: (clientNote.note || <div>Type here</div>)}}
+          dangerouslySetInnerHTML={{__html: (clientNote.note || '<div>Type here</div>')}}
         ></div>
         <button type="button" className="RightBody__client-note-delete" title="delete note">
           <img src={DeleteIcon} alt="delete icon"/>
