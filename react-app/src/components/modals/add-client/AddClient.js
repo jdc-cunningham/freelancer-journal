@@ -40,7 +40,6 @@ const AddClient = (props) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       alert(`Failed to add client:\n${err.response.data?.msg}`);
       console.error(err);
     })

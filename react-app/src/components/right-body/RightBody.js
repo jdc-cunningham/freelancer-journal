@@ -36,7 +36,6 @@ const RightBody = (props) => {
   }
   
   const updateClientNote = (note_id, client_id, note_content) => {
-    console.log('update');
     axios.post(
       `${baseApiPath}/update-client-note`,
       {
@@ -115,7 +114,6 @@ const RightBody = (props) => {
       }
     )
     .then((res) => {
-      console.log(res);
       if (res.status === 201) {
         setRefresh(true);
       } else {
