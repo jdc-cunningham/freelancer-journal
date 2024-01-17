@@ -65,7 +65,7 @@ const AddClient = (props) => {
         </span>
         <textarea placeholder="details" value={clientInfo.details} onChange={(e) => updateClientInfo("details", e.target.value)}/>
         <button type="button" className="AddClient__add" onClick={() => addClient()} disabled={addingClient}>Add</button>
-        <button type="button" className="AddClient__form-close">
+        <button type="button" className="AddClient__form-close" onClick={() => setShowAddClientModal(false)}>
           <img src={CloseIcon} title="close modal" alt="close icon"/>
         </button>
       </div>
