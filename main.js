@@ -12,7 +12,10 @@ let mainWindow;
 // listen for app to be ready
 app.on('ready', () => {
     // create new window
-    mainWindow = new BrowserWindow();
+    mainWindow = new BrowserWindow({
+        width: 1400,
+        height: 900
+    });
 
     // load html file into window
     mainWindow.loadURL(url.format({
