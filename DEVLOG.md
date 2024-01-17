@@ -56,7 +56,11 @@ That's a lot of work to do though and I have to start using this app
 
 Nice got that done
 
+1:03 PM
 
+Going to build this for now and start using it
+
+The caret issue is bad and contentEditable needs work regarding font format/preventing div nesting
 
 ---
 
