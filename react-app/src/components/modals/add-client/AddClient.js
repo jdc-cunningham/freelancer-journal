@@ -13,7 +13,7 @@ const AddClient = (props) => {
     name: "",
     topics: "",
     rate: 0.0,
-    rate_type: "rate_type",
+    rate_type: "hourly",
     details: ""
   });
 

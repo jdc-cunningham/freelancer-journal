@@ -3,6 +3,11 @@
   height: 100%;
   padding-right: 0.5rem;
   border-right: 1px solid #ccc;
+
+  h3 {
+    font-size: 1.125rem;
+    margin-top: 0.5rem;
+  }
 }
 
 .LeftSidebar__search-bar {
@@ -16,7 +21,7 @@
   margin-top: 0.5rem;
 }
 
-.LeftSidebar__search-result {
+.LeftSidebar__search-result, .LeftSidebar__client {
   margin-top: 0.25rem;
   border: 1px solid #282828;
   padding: 0.5rem;

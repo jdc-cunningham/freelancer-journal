@@ -8,7 +8,7 @@ app.use(cors());
 
 const {
   addClient, getClient, searchClients, deleteClient, getLastOpenedClients,
-  addLastOpenedClient, deleteLastOpenedClient
+  addOpenedClient, deleteLastOpenedClient
 } = require('./methods');
 
 app.use(
@@ -23,7 +23,7 @@ app.post('/get-client', getClient); // could use GET with /client-id/ pattern bu
 app.post('/search-clients', searchClients);
 app.post('/delete-client', deleteClient); // not using REST methods eg. DELETE
 app.get('/last-opened-clients', getLastOpenedClients);
-app.post('/add-last-opened-client', addLastOpenedClient);
+app.post('/add-opened-client', addOpenedClient);
 app.post('/delete-last-opened-client', deleteLastOpenedClient);
 
 app.listen(port, () => {

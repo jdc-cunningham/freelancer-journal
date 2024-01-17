@@ -174,9 +174,50 @@ const addClientNote = async (req, res) => {};
 const updateClientNote = async (req, res) => {};
 
 // used to populate app
-const getLastOpenedClients = async (req, res) => {};
+const getLastOpenedClients = async (req, res) => {
+  pool.query(
+    `SELECT * FROM last_opened_clients WHERE id > 0 ORDER BY opened DESC`,
+    (err, qres) => {
+      if (err) {
+        console.error('failed to get last opened clients', err);
 
-const addLastOpenedClient = async (req, res) => {};
+        res.status(400).send({
+          err: true,
+          msg: 'failed to get last opened clients'
+        });
+      } else {
+        res.status(200).send({
+          err: false,
+          clients: qres
+        });
+      }
+    }
+  );
+};
+
+const addOpenedClient = async (req, res) => {
+  const { client_id, name } = req.body;
+  const now = formatTimeStr(getDateTime());
+
+  pool.query(
+    `INSERT INTO last_opened_clients SET id = ?, client_id = ?, name = ?, opened = ?`,
+    [null, client_id, name, now],
+    (err, qres) => {
+      if (err) {
+        console.error('failed to add opened client', err);
+
+        res.status(400).send({
+          err: true,
+          msg: 'failed to add opened client'
+        });
+      } else {
+        res.status(201).send({
+          err: false,
+        });
+      }
+    }
+  );
+};
 
 const deleteLastOpenedClient = async (req, res) => {};
 
@@ -189,6 +230,6 @@ module.exports = {
   addClientNote,
   updateClientNote,
   getLastOpenedClients,
-  addLastOpenedClient,
+  addOpenedClient,
   deleteLastOpenedClient
 }

@@ -5,15 +5,20 @@ import './RightBody.scss'
 import RightTopBar from '../right-top-bar/RightTopBar';
 
 const RightBody = (props) => {
-  const { setShowAddClientModal } = props;
+  const { setShowAddClientModal, openClient } = props;
 
-  const [client, setClient] = useState(null);
+  const renderClient = () => (
+    <div className="RightBody__client">
+
+    </div>
+  );
 
   return (
     <div className="RightBody">
       <RightTopBar/>
-      {!client && <h1>Select or add a freelance client</h1>}
-      {!client && <button className="RightBody__add-client" type="button" onClick={() => setShowAddClientModal(true)}>Add</button>}
+      {!openClient && <h1>Select or add a freelance client</h1>}
+      {!openClient && <button className="RightBody__add-client" type="button" onClick={() => setShowAddClientModal(true)}>Add</button>}
+      {openClient && renderClient()}
     </div>
   );
 }

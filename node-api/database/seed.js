@@ -80,6 +80,7 @@ connection.query(
   'CREATE TABLE `last_opened_clients` (' +
       '`id` int(11) NOT NULL AUTO_INCREMENT,' +
       '`client_id` int(11) NOT NULL,' +
+      '`name` varchar(255) NOT NULL,' +
       '`opened` datetime NOT NULL,' +
       'PRIMARY KEY (`id`)' +
      ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import './App.css';
 
@@ -11,12 +12,13 @@ const baseApiPath = window.location.href.includes('localhost')
 
 function App() {
   const [showAddClientModal, setShowAddClientModal] = useState(false);
+  const [openClient, setOpenClient] = useState(null);
 
   return (
     <div className="App">
-      <LeftSidebar baseApiPath={baseApiPath}/>
-      <RightBody setShowAddClientModal={setShowAddClientModal}/>
-      {showAddClientModal && <AddClient baseApiPath={baseApiPath} setShowAddClientModal={setShowAddClientModal} />}
+      <LeftSidebar baseApiPath={baseApiPath} openClient={openClient} setOpenClient={setOpenClient}/>
+      <RightBody setShowAddClientModal={setShowAddClientModal} openClient={openClient}/>
+      {showAddClientModal && <AddClient baseApiPath={baseApiPath} setShowAddClientModal={setShowAddClientModal}/>}
     </div>
   );
 }

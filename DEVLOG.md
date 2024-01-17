@@ -62,6 +62,14 @@ Distracted, this is trivial work just setup
 
 Making progress, it's just work... will get to a usable state tonight. Break time
 
+8:15 PM
+
+I feel slower now but I gotta keep going, supposed to be using this as a tool
+
+- [ ] load client from click (done time)
+
+
+
 ---
 
 01/02/2024
