@@ -1,3 +1,19 @@
+01/17/2024
+
+12:31 AM
+
+Damn I'm stuck on the refocus thing after repainting from react state update
+
+I thought I had it... but that code was random trying/deleted lol could be just chance
+
+This answer here https://stackoverflow.com/a/3656524 has a working example but you have to know how many lines down and what line across you are at...
+
+12:42 AM
+
+Oh man... I have it working for 1 but not more lines
+
+
+
 01/16/2024
 
 2:56 PM
@@ -66,7 +82,7 @@ Making progress, it's just work... will get to a usable state tonight. Break tim
 
 I feel slower now but I gotta keep going, supposed to be using this as a tool
 
-- [ ] load client from click (done time)
+- [x] load client from click (done time)
 
 9:13 PM
 

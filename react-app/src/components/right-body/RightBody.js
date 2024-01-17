@@ -10,6 +10,10 @@ import RightTopBar from '../right-top-bar/RightTopBar';
 const RightBody = (props) => {
   const { setShowAddClientModal, openClient, baseApiPath, setRefresh } = props;
   const clientNoteRefs = useRef([]); // https://stackoverflow.com/a/57810772
+  const [updateTimeout, setUpdateTimeout] = useState(null);
+  const rangeRef = useRef(null);
+  const posRef = useRef(null);
+  const elRef = useRef(null);
 
   // https://stackoverflow.com/a/36281449
   const getBase64 = (file, callback, ref, id, client_id) => {
@@ -71,6 +75,39 @@ const RightBody = (props) => {
     }
   }
 
+  // https://stackoverflow.com/a/46902361
+  // this gives you number of characters from the left
+  const getCaretPosition = (node) => {
+    if (!Array.from(node.parentNode.classList).includes('RightBody__client-note-editable')) {
+      return; // limits depth, complexity of editable html content
+    }
+
+    const range = window.getSelection().getRangeAt(0);
+    const preCaretRange = range.cloneRange();
+    const tmp = document.createElement("div");
+    
+    let caretPosition;
+    
+    preCaretRange.selectNodeContents(node);
+    preCaretRange.setEnd(range.endContainer, range.endOffset);
+    tmp.appendChild(preCaretRange.cloneContents());
+    caretPosition = tmp.innerHTML.length;
+    
+    const htmlBeforeCaret = node.parentNode.innerHTML.split(tmp.outerHTML)[0];
+
+    const tmpDiv = document.createElement("div");
+
+    tmpDiv.innerHTML = htmlBeforeCaret;
+
+    return [caretPosition, tmpDiv.childNodes.length];
+  }
+
+  const omitKey = (e) => {
+    const omit = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"];
+
+    return omit.includes(e.code);
+  }
+
   // https://stackoverflow.com/a/6691294
   // the drop event provides the image via datatransfer, then caret is determined,
   // temporary node inserted, replaced by async image load base64 callback
@@ -82,7 +119,23 @@ const RightBody = (props) => {
           ref={el => clientNoteRefs.current[index] = el}
           className="RightBody__client-note-editable"
           contentEditable="true"
-          onKeyUp={(e) => updateClientNote(clientNote.id, clientNote.client_id, e.target.innerHTML)}
+          onKeyUp={(e) => {
+            if (omitKey(e)) return;
+
+            clearTimeout(updateTimeout);
+            setUpdateTimeout(
+              setTimeout(() => {
+                const caretPos = getCaretPosition(e.target);
+                posRef.current = caretPos;
+                elRef.current = e.target;
+
+                const range = document.getSelection().getRangeAt(0);
+
+                rangeRef.current = range;
+    
+                updateClientNote(clientNote.id, clientNote.client_id, e.target.innerHTML)
+              }, 250));
+          }}
           onDrop={(e) => {
             e.stopPropagation();
             e.preventDefault();
@@ -134,6 +187,60 @@ const RightBody = (props) => {
       {renderClientNotes(openClient.clientNotes?.data)}
     </div>
   );
+
+  // https://stackoverflow.com/a/6249440
+  const setCaret = () => {
+    var el = elRef.current;
+    var range = document.createRange()
+    var sel = window.getSelection()
+
+    console.log('posRef', posRef.current);
+    console.log('nodes', el.childNodes);
+    console.log('set', el.childNodes[posRef.current[1]]);
+    
+    range.setStart(el.childNodes[posRef.current[1]], 1); // in the end this does not use the x offset
+    range.collapse(true)
+    
+    sel.removeAllRanges()
+    sel.addRange(range)
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', (e) => {
+      console.log(e.target);
+      const caretPos = getCaretPosition(e.target);
+      posRef.current = caretPos;
+      console.log(caretPos);
+    });
+
+    // document.addEventListener('keyup', (e) => {
+    //   console.log('what', getSelection().getRangeAt(0).commonAncestorContainer.parentElement.outerHTML);
+    //   console.log(e);
+    //   console.log(e.target);
+    //   const caretPos = getCaretPosition(e.target);
+    //   posRef.current = caretPos;
+
+    //   console.log(caretPos);
+
+    //   // if (e.code === "ArrowDown") {
+    //   //   posRef.current =  [caretPos[0], caretPos[1] + 1];
+    //   //   return;
+    //   // }
+
+    //   // if (e.code === "ArrowUp") {
+    //   //   posRef.current = [caretPos[0], caretPos[1] - 1];
+    //   //   return;
+    //   // }
+    // });
+
+    console.log('render');
+  }, []);
+
+  useEffect(() => {
+    if (posRef.current && elRef.current) {
+      setCaret();
+    }
+  });
 
   return (
     <div className="RightBody">
