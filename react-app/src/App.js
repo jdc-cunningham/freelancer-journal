@@ -16,7 +16,6 @@ function App() {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    console.log(openClient);
     if (openClient) {
       setRefresh(false);
     }

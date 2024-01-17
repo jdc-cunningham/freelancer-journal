@@ -12,7 +12,7 @@ const RightBody = (props) => {
   const clientNoteRefs = useRef([]); // https://stackoverflow.com/a/57810772
 
   // https://stackoverflow.com/a/36281449
-  const getBase64 = (file, callback, ref) => {
+  const getBase64 = (file, callback, ref, id, client_id) => {
     const reader = new FileReader();
     
     reader.readAsDataURL(file);
@@ -21,7 +21,9 @@ const RightBody = (props) => {
       callback({
         err: false,
         data: reader.result,
-        ref
+        ref,
+        id,
+        client_id
       });
     };
     
@@ -34,6 +36,7 @@ const RightBody = (props) => {
   }
   
   const updateClientNote = (note_id, client_id, note_content) => {
+    console.log('update');
     axios.post(
       `${baseApiPath}/update-client-note`,
       {
@@ -43,8 +46,7 @@ const RightBody = (props) => {
       }
     )
     .then((res) => {
-      console.log(res);
-      if (res.status === 201) {
+      if (res.status === 200) {
         setRefresh(true);
       } else {
         alert('Failed to add client note: ' + res.data.msg);
@@ -62,11 +64,17 @@ const RightBody = (props) => {
       
       imgNode.setAttribute("src", img.data);
 
+      const parentEl = document.getElementById('replace-img').parentNode.parentNode;
+
       document.getElementById('replace-img').replaceWith(imgNode);
+
+      updateClientNote(img.id, img.client_id, parentEl.innerHTML);
     }
   }
 
   // https://stackoverflow.com/a/6691294
+  // the drop event provides the image via datatransfer, then caret is determined,
+  // temporary node inserted, replaced by async image load base64 callback
   const renderClientNotes = (clientNotes) => (
     clientNotes?.map((clientNote, index) => (
       <div key={index} className="RightBody__client-note">
@@ -75,7 +83,7 @@ const RightBody = (props) => {
           ref={el => clientNoteRefs.current[index] = el}
           className="RightBody__client-note-editable"
           contentEditable="true"
-          onChange={(e) => updateClientNote(clientNote.id, clientNote.client_id, e.target.innerHTML)}
+          onKeyUp={(e) => updateClientNote(clientNote.id, clientNote.client_id, e.target.innerHTML)}
           onDrop={(e) => {
             e.stopPropagation();
             e.preventDefault();
@@ -88,9 +96,10 @@ const RightBody = (props) => {
 
             range.surroundContents(tmpNode);
     
-            getBase64(e.dataTransfer.files[0], imgDrop, clientNoteRefs.current[index]);
+            getBase64(e.dataTransfer.files[0], imgDrop, clientNoteRefs.current[index], clientNote.id, clientNote.client_id);
           }}
-        >{clientNote.note || "Type here"}</div>
+          dangerouslySetInnerHTML={{__html: (clientNote.note || "Type here")}}
+        ></div>
         <button type="button" className="RightBody__client-note-delete" title="delete note">
           <img src={DeleteIcon} alt="delete icon"/>
         </button>

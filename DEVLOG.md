@@ -96,7 +96,11 @@ omg yes... I added the drag-drop in caret place
 
 that's a good dopamine hit right there mmhmm
 
+11:34 PM
 
+There's always another problem lol
+
+This time I have the data update but when it repaints the caret position goes to the beginning of the section
 
 ---
 
