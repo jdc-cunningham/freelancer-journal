@@ -14,7 +14,7 @@ function App() {
 
   return (
     <div className="App">
-      <LeftSidebar/>
+      <LeftSidebar baseApiPath={baseApiPath}/>
       <RightBody setShowAddClientModal={setShowAddClientModal}/>
       {showAddClientModal && <AddClient baseApiPath={baseApiPath} setShowAddClientModal={setShowAddClientModal} />}
     </div>

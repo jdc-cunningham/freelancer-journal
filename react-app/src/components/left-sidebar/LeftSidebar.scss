@@ -10,3 +10,25 @@
   padding: 0.25rem;
   width: 100%;
 }
+
+.LeftSidebar__no-clients-found {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.LeftSidebar__search-result {
+  margin-top: 0.25rem;
+  border: 1px solid #282828;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #aaa;
+
+    h2 {
+      color: white;
+    }
+  }
+}

@@ -57,7 +57,7 @@ const addClient = async (req, res) => {
   }
 
   pool.query(
-    `INSERT INTO clients SET id = ?, name = ?, topics = ?, rate = ?, rate_type = ?, details = ?, created = ?, last_updated`,
+    `INSERT INTO clients SET id = ?, name = ?, topics = ?, rate = ?, rate_type = ?, details = ?, created = ?, last_updated = ?`,
     [null, name, topics, rate, rate_type, details, now, now],
     (err, qres) => {
       if (err) {
