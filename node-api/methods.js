@@ -302,6 +302,30 @@ const addOpenedClient = async (req, res) => {
 
 const deleteLastOpenedClient = async (req, res) => {};
 
+const updateOpenClient = async (req, res) => {
+  const { client_id } = req.body;
+  const now = formatTimeStr(getDateTime());
+
+  pool.query(
+  `UPDATE last_opened_clients SET opened = ? WHERE client_id = ?`,
+    [now, client_id],
+    (err, qres) => {
+      if (err) {
+        console.error('failed to update open client', err);
+
+        res.status(400).send({
+          err: true,
+          msg: 'failed to update open client'
+        });
+      } else {
+        res.status(200).send({
+          err: false,
+        });
+      }
+    }
+  );
+};
+
 module.exports = {
   addClient,
   getClient,
@@ -314,5 +338,6 @@ module.exports = {
   addOpenedClient,
   deleteLastOpenedClient,
   addClientNote,
-  updateClientNote
+  updateClientNote,
+  updateOpenClient
 }

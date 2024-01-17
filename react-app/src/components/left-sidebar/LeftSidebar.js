@@ -19,9 +19,27 @@ const LeftSidebar = (props) => {
     ))
   );
 
+  const openSelectedClient = (client_id) => {
+    axios.post(
+      `${baseApiPath}/update-open-client`,
+      { client_id }
+    )
+    .then((res) => {
+      if (res.status === 200) {
+        getLastOpenedClients();
+      } else {
+        alert('Failed to open client: ' + res.data.msg);
+      }
+    })
+    .catch((err) => {
+      alert(`Failed to get opened client:\n${err.response.data?.msg}`);
+      console.error(err);
+    });
+  };
+
   const renderOpenedClientTabs = () => (
     openedClients.map((openedClient, index) => (
-      <div key={index} className="LeftSidebar__client">
+      <div key={index} className="LeftSidebar__client" onClick={() => openSelectedClient(openedClient.client_id)}>
         <h2>{openedClient.name}</h2>
       </div>
     ))

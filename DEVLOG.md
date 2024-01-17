@@ -1,5 +1,3 @@
-- [ ] client switching doesn't work (click tab on left)
-
 01/17/2024
 
 12:31 AM
@@ -31,6 +29,34 @@ As in if I type too fast after clicking the position is wrong
 Well... I dumped way too much time into this... I was aware caret stuff is tricky but yeah... "reinvent the wheel".
 
 Will continue tomorrow, actually use this
+
+12:20 PM
+
+Back on
+
+Gonna do the last bit of work to make this usable then use it/move on for now.
+
+I did want to fork it although that will cause problems. To use as a general note taking app vs. freelancing intent.
+
+The code is written with a lot of words for freelancing eg. client
+
+12:24 PM
+
+Ugh... wth I thought this issue was fixed the caret resume
+
+The alternative is to have two copies... an invisible set that does the saving and this one is just display
+
+Then the cursor won't be disturbed
+
+That's a lot of work to do though and I have to start using this app
+
+12:31 PM
+
+- [x] client switching doesn't work (click tab on left)
+
+Nice got that done
+
+
 
 ---
 
