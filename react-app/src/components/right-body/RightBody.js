@@ -14,6 +14,7 @@ const RightBody = (props) => {
   const rangeRef = useRef(null);
   const posRef = useRef(null);
   const elRef = useRef(null);
+  const keyUpBoundRef = useRef(null);
 
   // https://stackoverflow.com/a/36281449
   const getBase64 = (file, callback, ref, id, client_id) => {
@@ -79,7 +80,7 @@ const RightBody = (props) => {
   // this gives you number of characters from the left
   const getCaretPosition = (node) => {
     if (!Array.from(node.parentNode.classList).includes('RightBody__client-note-editable')) {
-      return; // limits depth, complexity of editable html content
+      return null; // limits depth, complexity of editable html content
     }
 
     const range = window.getSelection().getRangeAt(0);
@@ -125,8 +126,6 @@ const RightBody = (props) => {
             clearTimeout(updateTimeout);
             setUpdateTimeout(
               setTimeout(() => {
-                const caretPos = getCaretPosition(e.target);
-                posRef.current = caretPos;
                 elRef.current = e.target;
 
                 const range = document.getSelection().getRangeAt(0);
@@ -150,7 +149,7 @@ const RightBody = (props) => {
     
             getBase64(e.dataTransfer.files[0], imgDrop, clientNoteRefs.current[index], clientNote.id, clientNote.client_id);
           }}
-          dangerouslySetInnerHTML={{__html: (clientNote.note || "Type here")}}
+          dangerouslySetInnerHTML={{__html: (clientNote.note || <div>Type here</div>)}}
         ></div>
         <button type="button" className="RightBody__client-note-delete" title="delete note">
           <img src={DeleteIcon} alt="delete icon"/>
@@ -191,12 +190,8 @@ const RightBody = (props) => {
   // https://stackoverflow.com/a/6249440
   const setCaret = () => {
     var el = elRef.current;
-    var range = document.createRange()
-    var sel = window.getSelection()
-
-    console.log('posRef', posRef.current);
-    console.log('nodes', el.childNodes);
-    console.log('set', el.childNodes[posRef.current[1]]);
+    var range = document.createRange();
+    var sel = window.getSelection();
     
     range.setStart(el.childNodes[posRef.current[1]], 1); // in the end this does not use the x offset
     range.collapse(true)
@@ -206,34 +201,36 @@ const RightBody = (props) => {
   }
 
   useEffect(() => {
+    if (openClient && !keyUpBoundRef.current) {
+      document.querySelectorAll('.RightBody__client-note-editable').forEach(editable => {
+        console.log('nodes', Array.from(editable.childNodes));
+        Array.from(editable.childNodes).forEach(node => {
+          console.log('node', node);
+          node.addEventListener('keyup', (e) => {
+            console.log(e);
+            // const caretPos = getCaretPosition(e.target);
+      
+            // console.log(e);
+      
+            // if (caretPos) {
+            //   console.log('caret updated', caretPos);
+            //   posRef.current = caretPos;
+            // }
+          });
+        });
+      });
+      keyUpBoundRef.current = true;
+    }
+  }, [openClient]);
+
+  useEffect(() => {
     document.addEventListener('click', (e) => {
-      console.log(e.target);
       const caretPos = getCaretPosition(e.target);
-      posRef.current = caretPos;
-      console.log(caretPos);
+
+      if (caretPos) {
+        posRef.current = caretPos;
+      }
     });
-
-    // document.addEventListener('keyup', (e) => {
-    //   console.log('what', getSelection().getRangeAt(0).commonAncestorContainer.parentElement.outerHTML);
-    //   console.log(e);
-    //   console.log(e.target);
-    //   const caretPos = getCaretPosition(e.target);
-    //   posRef.current = caretPos;
-
-    //   console.log(caretPos);
-
-    //   // if (e.code === "ArrowDown") {
-    //   //   posRef.current =  [caretPos[0], caretPos[1] + 1];
-    //   //   return;
-    //   // }
-
-    //   // if (e.code === "ArrowUp") {
-    //   //   posRef.current = [caretPos[0], caretPos[1] - 1];
-    //   //   return;
-    //   // }
-    // });
-
-    console.log('render');
   }, []);
 
   useEffect(() => {
