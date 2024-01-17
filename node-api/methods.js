@@ -43,6 +43,8 @@ const addClient = async (req, res) => {
       err: true,
       msg: 'failed to check if client exists'
     });
+
+    return;
   }
 
   if (client?.exists) {
@@ -50,6 +52,8 @@ const addClient = async (req, res) => {
       err: true,
       msg: 'client exists'
     });
+
+    return;
   }
 
   pool.query(
@@ -121,29 +125,53 @@ const searchClients = async (req, res) => {
   );
 };
 
-const deleteClient = async (req, res) => (
-  new Promise ((resolve, reject) => {
+const deleteClient = async (req, res) => {
+  const { id } = req.body;
 
-  })
-);
+  // technically bad pattern since it should be assured both steps complete
 
-const updateClient = async (req, res) => (
-  new Promise ((resolve, reject) => {
+  pool.query(
+    `DELETE FROM client_notes WHERE client_id = ?`,
+    [id],
+    (err, qres) => {
+      if (err) {
+        console.error('failed to delete client_notes', err);
 
-  })
-);
+        res.status(400).send({
+          err: true,
+          msg: 'failed to delete client notes'
+        });
 
-const addClientNote = async (req, res) => (
-  new Promise ((resolve, reject) => {
+        return;
+      }
+    }
+  );
 
-  })
-);
+  pool.query(
+    `DELETE FROM clients WHERE id = ?`,
+    [id],
+    (err, qres) => {
+      if (err) {
+        console.error('failed to delete client', err);
 
-const updateClientNote = async (req, res) => (
-  new Promise ((resolve, reject) => {
+        res.status(400).send({
+          err: true,
+          msg: 'failed to delete client'
+        });
+      } else {
+        res.status(200).send({
+          err: false
+        });
+      }
+    }
+  );
+};
 
-  })
-);
+const updateClient = async (req, res) => {};
+
+const addClientNote = async (req, res) => {};
+
+const updateClientNote = async (req, res) => {};
 
 module.exports = {
   addClient,
@@ -151,5 +179,6 @@ module.exports = {
   searchClients,
   deleteClient,
   updateClient,
-  addClientNote
+  addClientNote,
+  updateClientNote
 }
