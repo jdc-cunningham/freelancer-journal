@@ -1,3 +1,5 @@
+- [ ] client switching doesn't work (click tab on left)
+
 01/17/2024
 
 12:31 AM
@@ -23,6 +25,12 @@ Hmm...
 There's also a noticeable lag on the click caret pos
 
 As in if I type too fast after clicking the position is wrong
+
+2:43 AM
+
+Well... I dumped way too much time into this... I was aware caret stuff is tricky but yeah... "reinvent the wheel".
+
+Will continue tomorrow, actually use this
 
 ---
 
