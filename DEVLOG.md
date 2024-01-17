@@ -58,7 +58,9 @@ The blocks are time based, not automatic but if you haven't touched it in a whil
 
 Distracted, this is trivial work just setup
 
+6:53 PM
 
+Making progress, it's just work... will get to a usable state tonight. Break time
 
 ---
 
