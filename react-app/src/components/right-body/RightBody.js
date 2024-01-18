@@ -85,6 +85,8 @@ const RightBody = (props) => {
   const imgDrop = (img) => {
     if (img?.data) {
       const imgNode = document.createElement("img");
+
+      imgNode.setAttribute("width", "100%");
       
       imgNode.setAttribute("src", img.data);
 
@@ -109,7 +111,7 @@ const RightBody = (props) => {
           ${clientNote.note || '<div>Type here</div>'}
         </div>
         <button type="button" class="RightBody__client-note-delete" title="delete note" data-id="${clientNote.id}" data-client-id="${clientNote.client_id}">
-          <img src="${DeleteIcon}" alt="delete icon"/>
+          <img src="${DeleteIcon}" width="100%" alt="delete icon"/>
         </button>
       </div>
       `  
