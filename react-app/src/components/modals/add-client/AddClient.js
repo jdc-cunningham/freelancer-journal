@@ -6,7 +6,7 @@ import './AddClient.scss'
 import CloseIcon from '../../../assets/icons/close-line-icon.svg';
 
 const AddClient = (props) => {
-  const { baseApiPath, setShowAddClientModal } = props;
+  const { baseApiPath, setShowAddClientModal, setRefresh } = props;
 
   const [addingClient, setAddingClient] = useState(false);
   const [clientInfo, setClientInfo] = useState({
@@ -35,6 +35,7 @@ const AddClient = (props) => {
       if (res.status === 201) {
         alert('Client added');
         setShowAddClientModal(false);
+        setRefresh(true);
       } else {
         alert('Failed to add client: ' + res.data.msg);
       }

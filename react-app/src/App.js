@@ -25,7 +25,7 @@ function App() {
     <div className="App">
       <LeftSidebar baseApiPath={baseApiPath} openClient={openClient} setOpenClient={setOpenClient} refresh={refresh}/>
       <RightBody setShowAddClientModal={setShowAddClientModal} openClient={openClient} baseApiPath={baseApiPath} setRefresh={setRefresh}/>
-      {showAddClientModal && <AddClient baseApiPath={baseApiPath} setShowAddClientModal={setShowAddClientModal}/>}
+      {showAddClientModal && <AddClient baseApiPath={baseApiPath} setShowAddClientModal={setShowAddClientModal} setRefresh={setRefresh}/>}
     </div>
   );
 }

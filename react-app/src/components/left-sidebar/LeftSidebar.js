@@ -69,14 +69,16 @@ const LeftSidebar = (props) => {
     )
     .then((res) => {
       if (res.status === 200) {
-        setOpenedClients(res.data.clients);
-        getOpenClient(res.data.clients[0].client_id);
+        if (res.data.clients.length) {
+          setOpenedClients(res.data.clients);
+          getOpenClient(res.data.clients[0].client_id);
+        }
       } else {
         alert('Failed to get last opened clients: ' + res.data.msg);
       }
     })
     .catch((err) => {
-      alert(`Failed to get last opened clients:\n${err.response.data?.msg}`);
+      alert('Failed to get last opened clients');
       console.error(err);
     });
   }
@@ -114,7 +116,7 @@ const LeftSidebar = (props) => {
     if (refresh) {
       getLastOpenedClients();
     }
-  }, [refresh])
+  }, [refresh]);
 
   useEffect(() => {
     if (searchTerm) {

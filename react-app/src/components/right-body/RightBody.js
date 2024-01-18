@@ -200,6 +200,10 @@ const RightBody = (props) => {
 
   useEffect(() => {
     document.addEventListener('click', (e) => {
+      if (!openClient) {
+        return;
+      }
+
       const caretPos = getCaretPosition(e.target);
 
       if (caretPos) {
