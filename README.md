@@ -4,6 +4,8 @@ Tracking freelance jobs and gamifying intent to make money
 
 <img src="./app-screenshot.JPG"/>
 
+<img src="./drag-drop-demo.gif"/>
+
 ### Tech
 
 Uses ReactJS for the front end with ElectronJS wrapper for deskto app.
