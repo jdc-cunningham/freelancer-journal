@@ -106,7 +106,7 @@ const RightBody = (props) => {
       <div class="RightBody__client-note">
         <p><b>Created:</b> ${prettyDate(clientNote.created)}</p>
         <div class="RightBody__client-note-editable" contentEditable="true" data-id="${clientNote.id}" data-client-id="${clientNote.client_id}">
-          ${clientNote.note}
+          ${clientNote.note || '<div>Type here</div>'}
         </div>
         <button type="button" class="RightBody__client-note-delete" title="delete note" data-id="${clientNote.id}" data-client-id="${clientNote.client_id}">
           <img src="${DeleteIcon}" alt="delete icon"/>
@@ -167,7 +167,7 @@ const RightBody = (props) => {
     )
     .then((res) => {
       if (res.status === 201) {
-        // setRefresh(true);
+        setRefresh(true);
       } else {
         alert('Failed to add client note: ' + res.data.msg);
       }
