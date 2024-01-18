@@ -129,7 +129,7 @@ const RightBody = (props) => {
                 elRef.current = e.target;
     
                 updateClientNote(clientNote.id, clientNote.client_id, e.target.innerHTML)
-              }, 250));
+              }, 500));
           }}
           onDrop={(e) => {
             e.stopPropagation();
