@@ -326,6 +326,32 @@ const updateOpenClient = async (req, res) => {
   );
 };
 
+const deleteClientNote = async (req, res) => {
+  const { client_note_id, client_id } = req.body;
+
+  console.log(client_note_id, client_id);
+
+  pool.query(
+  `DELETE FROM client_notes WHERE id = ? AND client_id = ?`,
+    [client_note_id, client_id],
+    (err, qres) => {
+      console.log(qres);
+      if (err) {
+        console.error('failed to delete client note', err);
+
+        res.status(400).send({
+          err: true,
+          msg: 'failed to delete client note'
+        });
+      } else {
+        res.status(200).send({
+          err: false,
+        });
+      }
+    }
+  );
+}
+
 module.exports = {
   addClient,
   getClient,
@@ -339,5 +365,6 @@ module.exports = {
   deleteLastOpenedClient,
   addClientNote,
   updateClientNote,
-  updateOpenClient
+  updateOpenClient,
+  deleteClientNote
 }

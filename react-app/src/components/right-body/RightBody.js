@@ -11,13 +11,34 @@ import { prettyDate } from '../../utils';
 
 const RightBody = (props) => {
   const { setShowAddClientModal, openClient, baseApiPath, setRefresh } = props;
-  const clientNoteRefs = useRef([]); // https://stackoverflow.com/a/57810772
   const [updateTimeout, setUpdateTimeout] = useState(null);
-  const posRef = useRef(null);
-  const elRef = useRef(null);
+  const clientNotesRef = useRef(null);
+
+  const deleteClientNote = (clientNoteId, clientId, el) => {
+    if (window.confirm("Delete entry?") === true) {
+      axios.post(
+        `${baseApiPath}/delete-client-note`,
+        {
+          client_note_id: clientNoteId,
+          client_id: clientId
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          el.remove();
+        } else {
+          alert('Failed to delete client note: ' + res.data.msg);
+        }
+      })
+      .catch((err) => {
+        alert(`Failed to delete client note:\n${err.response.data?.msg}`);
+        console.error(err);
+      }); 
+    }
+  }
 
   // https://stackoverflow.com/a/36281449
-  const getBase64 = (file, callback, ref, id, client_id) => {
+  const getBase64 = (file, callback, id, client_id) => {
     const reader = new FileReader();
     
     reader.readAsDataURL(file);
@@ -26,7 +47,6 @@ const RightBody = (props) => {
       callback({
         err: false,
         data: reader.result,
-        ref,
         id,
         client_id
       });
@@ -51,7 +71,7 @@ const RightBody = (props) => {
     )
     .then((res) => {
       if (res.status === 200) {
-        setRefresh(true);
+        // setRefresh(true);
       } else {
         alert('Failed to add client note: ' + res.data.msg);
       }
@@ -76,83 +96,67 @@ const RightBody = (props) => {
     }
   }
 
-  // https://stackoverflow.com/a/46902361
-  // this gives you number of characters from the left
-  const getCaretPosition = (node) => {
-    if (!Array.from(node.parentNode.classList).includes('RightBody__client-note-editable')) {
-      return null; // limits depth, complexity of editable html content
-    }
-
-    const range = window.getSelection().getRangeAt(0);
-    const preCaretRange = range.cloneRange();
-    const tmp = document.createElement("div");
-    
-    let caretPosition;
-    
-    preCaretRange.selectNodeContents(node);
-    preCaretRange.setEnd(range.endContainer, range.endOffset);
-    tmp.appendChild(preCaretRange.cloneContents());
-    caretPosition = tmp.innerHTML.length;
-    
-    const htmlBeforeCaret = node.parentNode.innerHTML.split(tmp.outerHTML)[0];
-
-    const tmpDiv = document.createElement("div");
-
-    tmpDiv.innerHTML = htmlBeforeCaret;
-
-    return [caretPosition, tmpDiv.childNodes.length];
-  }
-
-  const omitKey = (e) => {
-    const omit = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"];
-
-    return omit.includes(e.code);
-  }
-
   // https://stackoverflow.com/a/6691294
   // the drop event provides the image via datatransfer, then caret is determined,
   // temporary node inserted, replaced by async image load base64 callback
-  const renderClientNotes = (clientNotes) => (
-    clientNotes?.map((clientNote, index) => (
-      <div key={index} className="RightBody__client-note">
-        <p><b>Created:</b> {prettyDate(clientNote.created)}</p>
-        <div
-          ref={el => clientNoteRefs.current[index] = el}
-          className="RightBody__client-note-editable"
-          contentEditable="true"
-          onKeyUp={(e) => {
-            if (omitKey(e)) return;
-
-            clearTimeout(updateTimeout);
-            setUpdateTimeout(
-              setTimeout(() => {
-                elRef.current = e.target;
-    
-                updateClientNote(clientNote.id, clientNote.client_id, e.target.innerHTML)
-              }, 500));
-          }}
-          onDrop={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            
-            // add marker to be replaced by async image callback
-            const range = document.getSelection().getRangeAt(0);
-            const tmpNode = document.createElement("div");
-
-            tmpNode.setAttribute("id", "replace-img");
-
-            range.surroundContents(tmpNode);
-    
-            getBase64(e.dataTransfer.files[0], imgDrop, clientNoteRefs.current[index], clientNote.id, clientNote.client_id);
-          }}
-          dangerouslySetInnerHTML={{__html: (clientNote.note || '<div>Type here</div>')}}
-        ></div>
-        <button type="button" className="RightBody__client-note-delete" title="delete note">
-          <img src={DeleteIcon} alt="delete icon"/>
+  const renderClientNotes = (clientNotes) => {
+    const noteMarkup = clientNotes?.map(clientNote => (
+      // nasty duplicate data attributes
+      `
+      <div class="RightBody__client-note">
+        <p><b>Created:</b> ${prettyDate(clientNote.created)}</p>
+        <div class="RightBody__client-note-editable" contentEditable="true" data-id="${clientNote.id}" data-client-id="${clientNote.client_id}">
+          ${clientNote.note}
+        </div>
+        <button type="button" class="RightBody__client-note-delete" title="delete note" data-id="${clientNote.id}" data-client-id="${clientNote.client_id}">
+          <img src="${DeleteIcon}" alt="delete icon"/>
         </button>
       </div>
-    ))
-  );
+      `  
+    ));
+
+    clientNotesRef.current.innerHTML = noteMarkup.join('');
+
+    // bind events
+    document.querySelectorAll('.RightBody__client-note-editable').forEach(editable => {
+      editable.addEventListener('keyup', (e) => {
+        clearTimeout(updateTimeout);
+        setUpdateTimeout(
+          setTimeout(() => {
+            const id = editable.getAttribute('data-id');
+            const clientId = editable.getAttribute('data-client-id');
+            updateClientNote(id, clientId, e.target.innerHTML);
+          }, 500)
+        );
+      });
+
+      editable.addEventListener('drop', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        
+        // add marker to be replaced by async image callback
+        const range = document.getSelection().getRangeAt(0);
+        const tmpNode = document.createElement("div");
+
+        tmpNode.setAttribute("id", "replace-img");
+
+        range.surroundContents(tmpNode);
+
+        const id = editable.getAttribute('data-id');
+        const clientId = editable.getAttribute('data-client-id');
+
+        getBase64(e.dataTransfer.files[0], imgDrop, id, clientId);
+      });
+    });
+
+    document.querySelectorAll('.RightBody__client-note-delete').forEach(deleteIcon => {
+      deleteIcon.addEventListener('click', (e) => {
+        const id = deleteIcon.getAttribute('data-id');
+        const clientId = deleteIcon.getAttribute('data-client-id');
+        deleteClientNote(id, clientId, deleteIcon.parentNode);
+      });
+    });
+  };
 
   const addClientNote = (client_id) => {
     axios.post(
@@ -163,7 +167,7 @@ const RightBody = (props) => {
     )
     .then((res) => {
       if (res.status === 201) {
-        setRefresh(true);
+        // setRefresh(true);
       } else {
         alert('Failed to add client note: ' + res.data.msg);
       }
@@ -179,44 +183,15 @@ const RightBody = (props) => {
       <h1>{openClient.name}</h1>
       <p>{openClient.details}</p>
       <button type="button" className="RightBody__client-add-note" onClick={() => addClientNote(openClient.id)}>Add note</button>
-      {renderClientNotes(openClient.clientNotes?.data)}
+      <div ref={clientNotesRef}></div>
     </div>
   );
 
-  // https://stackoverflow.com/a/6249440
-  const setCaret = () => {
-    var el = elRef.current;
-    var range = document.createRange();
-    var sel = window.getSelection();
-
-    if (!el.childNodes[posRef.current[1]]) return; // this causes a fatal error if it doesn't exist
-    
-    range.setStart(el.childNodes[posRef.current[1]], 1); // in the end this does not use the x offset
-    range.collapse(true)
-    
-    sel.removeAllRanges()
-    sel.addRange(range)
-  }
-
   useEffect(() => {
-    document.addEventListener('click', (e) => {
-      if (!openClient) {
-        return;
-      }
-
-      const caretPos = getCaretPosition(e.target);
-
-      if (caretPos) {
-        posRef.current = caretPos;
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (posRef.current && elRef.current) {
-      setCaret();
+    if (openClient) {
+      renderClientNotes(openClient.clientNotes?.data);
     }
-  });
+  }, [openClient]);
 
   return (
     <div className="RightBody">

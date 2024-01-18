@@ -62,6 +62,14 @@ Going to build this for now and start using it
 
 The caret issue is bad and contentEditable needs work regarding font format/preventing div nesting
 
+8:22 PM
+
+Fuh... it's not usable, the jumping around caret is annoying
+
+I'm gonna have to rework how this thing works... but I need to use it now...
+
+I'll see if I can quickly redo this code... pretty much I'm going to "unreact" the contentEditable stuff so it stays as is, does data syncing in the background.
+
 ---
 
 01/16/2024
