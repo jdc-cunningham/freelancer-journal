@@ -12,14 +12,14 @@ const {
   updateOpenClient, deleteClientNote
 } = require('./methods');
 
+app.use(express.json({limit: '50mb'}));
+
 app.use(
   bodyParser.json(),
   bodyParser.urlencoded({
     extended: true
   })
 );
-
-app.use(express.json({limit: '50mb'}));
 
 app.post('/add-client', addClient);
 app.post('/get-client', getClient); // could use GET with /client-id/ pattern but eh...
