@@ -1,3 +1,5 @@
+- [ ] add sidebar collapse feature, needs icons
+
 01/17/2024
 
 12:31 AM
