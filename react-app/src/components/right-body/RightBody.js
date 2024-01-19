@@ -117,7 +117,7 @@ const RightBody = (props) => {
       `  
     ));
 
-    clientNotesRef.current.innerHTML = noteMarkup.join('');
+    clientNotesRef.current.innerHTML = noteMarkup ? noteMarkup.join('') : '';
 
     // bind events
     document.querySelectorAll('.RightBody__client-note-editable').forEach(editable => {
