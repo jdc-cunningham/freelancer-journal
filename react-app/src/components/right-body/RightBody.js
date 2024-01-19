@@ -102,7 +102,7 @@ const RightBody = (props) => {
   // the drop event provides the image via datatransfer, then caret is determined,
   // temporary node inserted, replaced by async image load base64 callback
   const renderClientNotes = (clientNotes) => {
-    const noteMarkup = clientNotes?.map(clientNote => (
+    const noteMarkup = clientNotes?.reverse().map(clientNote => (
       // nasty duplicate data attributes
       `
       <div class="RightBody__client-note">
