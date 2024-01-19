@@ -23,5 +23,5 @@ export const prettyDate = (datetime) => {
   const day = dateStringParts[0];
   const timeParts = dateStringParts[4].split(':');
   const hourPeriodParts = _getPeriod(parseInt(timeParts[0]));
-  return `${day} ${hourPeriodParts[0]}:${timeParts[1]} ${hourPeriodParts[1]}`;
+  return `${day} ${hourPeriodParts[0]}:${timeParts[1]} ${hourPeriodParts[1]} ${dateStringParts[1]} ${dateStringParts[2]}, ${dateStringParts[3]}`;
 }
