@@ -63,7 +63,16 @@ wss.on('connection', function connection(ws) {
   });
 
   ws.on('close', () => {
-    connections = {}; // lazy close all don't know which one was lost, tried to read socket
+    const newObj = {};
+
+    // https://stackoverflow.com/a/23369370
+    Object.keys(connections).forEach(connection => {
+      if (connections[connection].readyState === 1) {
+        newObj[connection] = connections[connection];
+      }
+    });
+
+    connections = newObj;
   });
 });
 
