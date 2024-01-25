@@ -36,7 +36,9 @@ Issue is... it matches tabs/same state haha... so yeah
 
 Ugh... it stopped working
 
+8:59 PM
 
+That seems better will see how it goes
 
 ---
 
