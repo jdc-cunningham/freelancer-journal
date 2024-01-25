@@ -12,7 +12,7 @@ const baseApiPath = isLocal
   ? 'http://localhost:5135' : 'http://192.168.1.144:5135'; // developed for local API
 
 const socketPath = isLocal
-  ? 'ws://localhost:5136' : 'http://192.168.1.144:5136';
+  ? 'ws://localhost:5136' : 'ws://192.168.1.144:5136';
 
 function App() {
   const [showAddClientModal, setShowAddClientModal] = useState(false);

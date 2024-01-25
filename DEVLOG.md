@@ -20,7 +20,11 @@ I don't want to lose data though either, there are no copies, just one
 
 Ugh... fine I'll do it
 
+7:32 PM
 
+Damn... I feel bad I just dumped that socket code in app/right body should be isolated somewhere
+
+ahh... well, don't have the time, hobby project/tool
 
 ---
 
