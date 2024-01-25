@@ -21,3 +21,9 @@ The main issue is the range stuff and dom targets (nesting divs).
 ### Misc
 
 Icons from uxwing
+
+### Generating electron icon for Mac
+
+This was a PITA for some reason but iconutil is built into mac (doing this on Monterey)
+
+See [here](https://stackoverflow.com/questions/29293840/how-to-use-iconutil-on-mac-to-generate-icns-file) for more info
