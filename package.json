@@ -1,7 +1,7 @@
 {
-  "name": "desktop",
+  "name": "freelancer-journal",
   "version": "1.0.0",
-  "description": "Desktop wrapper",
+  "description": "Freelancer Journal",
   "main": "main.js",
   "dependencies": {},
   "devDependencies": {
