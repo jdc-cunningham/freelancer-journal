@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const WebSocket = require('ws');
+
 const app = express();
 const port = 5135;
 
@@ -32,6 +34,27 @@ app.post('/add-client-note', addClientNote);
 app.post('/update-client-note', updateClientNote)
 app.post('/update-open-client', updateOpenClient);
 app.post('/delete-client-note', deleteClientNote);
+
+const wss = new WebSocket.Server({ port: 5136 });
+
+const connections = {};
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(data, isBinary) {
+    const msgStr = isBinary ? data : data.toString();
+    const msg = JSON.parse(msgStr);
+
+    console.log(msg);
+    
+    if (msg?.from && !(msg.from in connections)) {
+      connections[msg.from] = ws;
+
+      ws.send(JSON.stringify({
+        msg: 'yo'
+      }));
+    }
+  });
+});
 
 app.listen(port, () => {
   console.log(`App running... on port ${port}`);

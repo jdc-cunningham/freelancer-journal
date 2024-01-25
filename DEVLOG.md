@@ -10,6 +10,20 @@ Adding the collapsing sidebar real quick
 
 Pretty cool I built it for mac and it just worked other than a start up menu label issue
 
+6:51 PM
+
+Oh man... I just realized if two instances are open they'll overwrite each other
+
+Need a way to tell the other instance to sync damn... ugh... I can do it (websocket) but I'm lazy...
+
+I don't want to lose data though either, there are no copies, just one
+
+Ugh... fine I'll do it
+
+
+
+---
+
 01/17/2024
 
 12:31 AM

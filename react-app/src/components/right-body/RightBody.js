@@ -10,9 +10,11 @@ import RightTopBar from '../right-top-bar/RightTopBar';
 import { prettyDate } from '../../utils';
 
 const RightBody = (props) => {
-  const { setShowAddClientModal, openClient, baseApiPath, setRefresh, sidebarCollapsed } = props;
+  const { setShowAddClientModal, openClient, baseApiPath, setRefresh, sidebarCollapsed, socketPath } = props;
   const [updateTimeout, setUpdateTimeout] = useState(null);
+
   const clientNotesRef = useRef(null);
+  const socket = useRef(null);
 
   const deleteClientNote = (clientNoteId, clientId, el) => {
     if (window.confirm("Delete entry?") === true) {
@@ -26,6 +28,10 @@ const RightBody = (props) => {
       .then((res) => {
         if (res.status === 200) {
           el.remove();
+          socket.send(JSON.stringify({
+            from: process.env.REACT_APP_WHO,
+            msg: 'refresh'
+          }));
         } else {
           alert('Failed to delete client note: ' + res.data.msg);
         }
@@ -71,7 +77,10 @@ const RightBody = (props) => {
     )
     .then((res) => {
       if (res.status === 200) {
-        // setRefresh(true);
+        socket.send(JSON.stringify({
+          from: process.env.REACT_APP_WHO,
+          msg: 'refresh'
+        }));
       } else {
         alert('Failed to add client note: ' + res.data.msg);
       }
@@ -169,6 +178,11 @@ const RightBody = (props) => {
     )
     .then((res) => {
       if (res.status === 201) {
+        socket.send(JSON.stringify({
+          from: process.env.REACT_APP_WHO,
+          msg: 'refresh'
+        }));
+
         setRefresh(true);
       } else {
         alert('Failed to add client note: ' + res.data.msg);
@@ -189,11 +203,61 @@ const RightBody = (props) => {
     </div>
   );
 
+  const socketPing = (ws) => {
+    ws.send(JSON.stringify({
+      from: process.env.REACT_APP_WHO
+    }));
+  }
+
+  const socketPong = (ws) => {
+    setTimeout(() => {
+      socketPing(ws);
+    }, 3000);
+  }
+
   useEffect(() => {
     if (openClient) {
       renderClientNotes(openClient.clientNotes?.data);
     }
   }, [openClient]);
+
+  const connectSocket = () => {
+    const serverSocket = new WebSocket(socketPath);
+
+    socket.current = serverSocket;
+
+    serverSocket.onopen = (event) => {
+      socketPing(serverSocket);
+    };
+
+    serverSocket.onmessage = (event) => {
+      socketPong(serverSocket);
+
+      const msgStr = event.data;
+
+      if (msgStr) {
+        const msg = JSON.parse(msgStr);
+
+        if (msg === 'refresh') {
+          setRefresh(true);
+        }
+      }
+    };
+
+    serverSocket.onerror = (event) => {
+      console.log('socket err:', event);
+    };
+
+    serverSocket.onclose = () => {
+      setTimeout(() => {
+        connectSocket();
+      }, 3000);
+    };
+  }
+
+  useEffect(() => {
+    connectSocket();
+  }, []);
 
   return (
     <div className={`RightBody ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>

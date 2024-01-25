@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import './App.css';
 
@@ -7,8 +6,13 @@ import LeftSidebar from './components/left-sidebar/LeftSidebar';
 import RightBody from './components/right-body/RightBody';
 import AddClient from './components/modals/add-client/AddClient';
 
-const baseApiPath = window.location.href.includes('localhost')
+const isLocal = window.location.href.includes('localhost');
+
+const baseApiPath = isLocal
   ? 'http://localhost:5135' : 'http://192.168.1.144:5135'; // developed for local API
+
+const socketPath = isLocal
+  ? 'ws://localhost:5136' : 'http://192.168.1.144:5136';
 
 function App() {
   const [showAddClientModal, setShowAddClientModal] = useState(false);
@@ -38,6 +42,7 @@ function App() {
         baseApiPath={baseApiPath}
         setRefresh={setRefresh}
         sidebarCollapsed={sidebarCollapsed}
+        socketPath={socketPath}
       />
       {showAddClientModal && <AddClient
         baseApiPath={baseApiPath}
