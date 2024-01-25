@@ -43,15 +43,22 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(data, isBinary) {
     const msgStr = isBinary ? data : data.toString();
     const msg = JSON.parse(msgStr);
-
-    console.log(msg);
     
     if (msg?.from && !(msg.from in connections)) {
       connections[msg.from] = ws;
 
-      ws.send(JSON.stringify({
-        msg: 'yo'
-      }));
+      if (Object.keys(connections).length > 1) {
+        const lastMsgFrom = msg.from;
+  
+        Object.keys(connections).forEach(connection => {
+          if (connection !== lastMsgFrom) {
+            // this is the main purpose of this socket bridge, it's crude, does not consider in flight txs
+            connection.send({
+              msg: 'refresh'
+            });
+          }
+        })
+      }
     }
   });
 });

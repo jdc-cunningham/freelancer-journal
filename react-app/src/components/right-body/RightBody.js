@@ -236,9 +236,9 @@ const RightBody = (props) => {
       const msgStr = event.data;
 
       if (msgStr) {
-        const msg = JSON.parse(msgStr);
+        const data = JSON.parse(msgStr);
 
-        if (msg === 'refresh') {
+        if (data.msg === 'refresh') {
           setRefresh(true);
         }
       }
