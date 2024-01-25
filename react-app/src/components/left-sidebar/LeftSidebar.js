@@ -3,8 +3,10 @@ import axios from 'axios';
 
 import './LeftSidebar.scss'
 
+import ChevronCircleLeft from '../../assets/icons/angle-circle-left-icon.svg';
+
 const LeftSidebar = (props) => {
-  const { baseApiPath, openClient, setOpenClient, refresh } = props;
+  const { baseApiPath, setOpenClient, refresh, sidebarCollapsed, setSidebarCollapsed } = props;
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTimeout, setSearchTimeout] = useState(null);
@@ -146,17 +148,25 @@ const LeftSidebar = (props) => {
   }, []);
 
   return (
-    <div className="LeftSidebar">
-      <input
+    <div className={`LeftSidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+      {!sidebarCollapsed && <input
         className="LeftSidebar__search-bar"
         type="text" placeholder="search name, topic"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      />}
       {searchTerm && !searchResults.length && <h2 className="LeftSidebar__no-clients-found">No clients found</h2>}
       {searchTerm && searchResults.length > 0 && renderClientTabs()}
       {!searchTerm && openedClients.length > 0 && <h3>Last viewed clients</h3>}
       {!searchTerm && openedClients.length > 0 && renderOpenedClientTabs()}
+      <button
+        type="button"
+        className={`LeftSidebar__collapse-icon ${sidebarCollapsed ? 'collapsed' : ''}`}
+        title={sidebarCollapsed ? 'expand' : 'collapse'}
+        onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+      >
+        <img src={ChevronCircleLeft} alt="collapse sidebar" />
+      </button>
     </div>
   );
 }

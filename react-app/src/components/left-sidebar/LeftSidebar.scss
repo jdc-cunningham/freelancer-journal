@@ -1,8 +1,17 @@
 .LeftSidebar {
+  position: relative;
   width: 25%;
   height: 100%;
   padding-right: 0.5rem;
   border-right: 1px solid #ccc;
+
+  &.collapsed {
+    width: 50px;
+
+    .LeftSidebar__collapse-icon {
+      left: 5px;
+    }
+  }
 
   h3 {
     font-size: 1.125rem;
@@ -43,4 +52,31 @@
   border-bottom: 1px solid #ccc;
   border-radius: 0;
   padding-left: 0;
+}
+
+.LeftSidebar__collapse-icon {
+  position: absolute;
+  bottom: 1rem;
+  right: -1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 0;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  z-index: 1;
+
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &.collapsed {
+    img {
+      transform: rotate(180deg);
+    }
+  }
 }

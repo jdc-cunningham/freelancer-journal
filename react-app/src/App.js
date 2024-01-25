@@ -14,6 +14,7 @@ function App() {
   const [showAddClientModal, setShowAddClientModal] = useState(false);
   const [openClient, setOpenClient] = useState(null);
   const [refresh, setRefresh] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     if (openClient) {
@@ -23,9 +24,26 @@ function App() {
 
   return (
     <div className="App">
-      <LeftSidebar baseApiPath={baseApiPath} openClient={openClient} setOpenClient={setOpenClient} refresh={refresh}/>
-      <RightBody setShowAddClientModal={setShowAddClientModal} openClient={openClient} baseApiPath={baseApiPath} setRefresh={setRefresh}/>
-      {showAddClientModal && <AddClient baseApiPath={baseApiPath} setShowAddClientModal={setShowAddClientModal} setRefresh={setRefresh}/>}
+      <LeftSidebar
+        baseApiPath={baseApiPath}
+        openClient={openClient}
+        setOpenClient={setOpenClient}
+        refresh={refresh}
+        sidebarCollapsed={sidebarCollapsed}
+        setSidebarCollapsed={setSidebarCollapsed}
+      />
+      <RightBody
+        setShowAddClientModal={setShowAddClientModal}
+        openClient={openClient}
+        baseApiPath={baseApiPath}
+        setRefresh={setRefresh}
+        sidebarCollapsed={sidebarCollapsed}
+      />
+      {showAddClientModal && <AddClient
+        baseApiPath={baseApiPath}
+        setShowAddClientModal={setShowAddClientModal}
+        setRefresh={setRefresh}
+      />}
     </div>
   );
 }

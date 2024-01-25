@@ -10,7 +10,7 @@ import RightTopBar from '../right-top-bar/RightTopBar';
 import { prettyDate } from '../../utils';
 
 const RightBody = (props) => {
-  const { setShowAddClientModal, openClient, baseApiPath, setRefresh } = props;
+  const { setShowAddClientModal, openClient, baseApiPath, setRefresh, sidebarCollapsed } = props;
   const [updateTimeout, setUpdateTimeout] = useState(null);
   const clientNotesRef = useRef(null);
 
@@ -196,7 +196,7 @@ const RightBody = (props) => {
   }, [openClient]);
 
   return (
-    <div className="RightBody">
+    <div className={`RightBody ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
       <RightTopBar/>
       {!openClient && <h1>Select or add a freelance client</h1>}
       {!openClient && <button className="RightBody__add-client" type="button" onClick={() => setShowAddClientModal(true)}>Add</button>}

@@ -2,6 +2,14 @@
   - should show on top bar
 - [ ] add sidebar collapse feature, needs icons
 
+01/24/2024
+
+6:03 PM
+
+Adding the collapsing sidebar real quick
+
+Pretty cool I built it for mac and it just worked other than a start up menu label issue
+
 01/17/2024
 
 12:31 AM

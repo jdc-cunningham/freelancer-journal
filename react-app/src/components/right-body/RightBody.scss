@@ -8,6 +8,10 @@
   height: 100%;
   padding-top: 30px;
 
+  &.sidebar-collapsed {
+    width: calc(100% - 50px);
+  }
+
   &.active-client {
     align-items: flex-start;
     justify-content: flex-start;
