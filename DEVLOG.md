@@ -26,6 +26,12 @@ Damn... I feel bad I just dumped that socket code in app/right body should be is
 
 ahh... well, don't have the time, hobby project/tool
 
+8:27 PM
+
+Alright... I added it... pretty cool, see the other side update
+
+Issue is... it matches tabs/same state haha... so yeah
+
 ---
 
 01/17/2024
