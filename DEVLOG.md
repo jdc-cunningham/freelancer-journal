@@ -32,6 +32,12 @@ Alright... I added it... pretty cool, see the other side update
 
 Issue is... it matches tabs/same state haha... so yeah
 
+8:35 PM
+
+Ugh... it stopped working
+
+
+
 ---
 
 01/17/2024

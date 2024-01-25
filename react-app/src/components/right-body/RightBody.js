@@ -15,6 +15,7 @@ const RightBody = (props) => {
 
   const clientNotesRef = useRef(null);
   const socket = useRef(null);
+  const updateTimeoutRef = useRef(null);
 
   const deleteClientNote = (clientNoteId, clientId, el) => {
     if (window.confirm("Delete entry?") === true) {
@@ -131,14 +132,12 @@ const RightBody = (props) => {
     // bind events
     document.querySelectorAll('.RightBody__client-note-editable').forEach(editable => {
       editable.addEventListener('keyup', (e) => {
-        clearTimeout(updateTimeout);
-        setUpdateTimeout(
-          setTimeout(() => {
-            const id = editable.getAttribute('data-id');
-            const clientId = editable.getAttribute('data-client-id');
-            updateClientNote(id, clientId, e.target.innerHTML);
-          }, 500)
-        );
+        clearTimeout(updateTimeoutRef.current);
+        updateTimeoutRef.current = setTimeout(() => {
+          const id = editable.getAttribute('data-id');
+          const clientId = editable.getAttribute('data-client-id');
+          updateClientNote(id, clientId, e.target.innerHTML);
+        }, 500)
       });
 
       editable.addEventListener('drop', (e) => {
@@ -251,7 +250,7 @@ const RightBody = (props) => {
     serverSocket.onclose = () => {
       setTimeout(() => {
         connectSocket();
-      }, 3000);
+      }, 1000);
     };
   }
 

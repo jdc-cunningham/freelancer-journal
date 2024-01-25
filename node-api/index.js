@@ -37,7 +37,7 @@ app.post('/delete-client-note', deleteClientNote);
 
 const wss = new WebSocket.Server({ port: 5136 });
 
-const connections = {};
+let connections = {};
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(data, isBinary) {
@@ -48,7 +48,7 @@ wss.on('connection', function connection(ws) {
       connections[msg.from] = ws;
     }
 
-    if (Object.keys(connections).length > 1) {
+    if (msg?.msg === "refresh" && Object.keys(connections).length > 1) {
       const lastMsgFrom = msg.from;
 
       Object.keys(connections).forEach(connection => {
@@ -60,6 +60,10 @@ wss.on('connection', function connection(ws) {
         }
       })
     }
+  });
+
+  ws.on('close', () => {
+    connections = {}; // lazy close all don't know which one was lost, tried to read socket
   });
 });
 
