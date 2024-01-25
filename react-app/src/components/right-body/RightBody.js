@@ -28,7 +28,7 @@ const RightBody = (props) => {
       .then((res) => {
         if (res.status === 200) {
           el.remove();
-          socket.send(JSON.stringify({
+          socket.current.send(JSON.stringify({
             from: process.env.REACT_APP_WHO,
             msg: 'refresh'
           }));
@@ -77,7 +77,7 @@ const RightBody = (props) => {
     )
     .then((res) => {
       if (res.status === 200) {
-        socket.send(JSON.stringify({
+        socket.current.send(JSON.stringify({
           from: process.env.REACT_APP_WHO,
           msg: 'refresh'
         }));
@@ -178,7 +178,7 @@ const RightBody = (props) => {
     )
     .then((res) => {
       if (res.status === 201) {
-        socket.send(JSON.stringify({
+        socket.current.send(JSON.stringify({
           from: process.env.REACT_APP_WHO,
           msg: 'refresh'
         }));
