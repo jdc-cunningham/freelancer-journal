@@ -155,10 +155,10 @@ const LeftSidebar = (props) => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />}
-      {searchTerm && !searchResults.length && <h2 className="LeftSidebar__no-clients-found">No clients found</h2>}
-      {searchTerm && searchResults.length > 0 && renderClientTabs()}
-      {!searchTerm && openedClients.length > 0 && <h3>Last viewed clients</h3>}
-      {!searchTerm && openedClients.length > 0 && renderOpenedClientTabs()}
+      {!sidebarCollapsed && searchTerm && !searchResults.length && <h2 className="LeftSidebar__no-clients-found">No clients found</h2>}
+      {!sidebarCollapsed && searchTerm && searchResults.length > 0 && renderClientTabs()}
+      {!sidebarCollapsed && !searchTerm && openedClients.length > 0 && <h3>Last viewed clients</h3>}
+      {!sidebarCollapsed && !searchTerm && openedClients.length > 0 && renderOpenedClientTabs()}
       <button
         type="button"
         className={`LeftSidebar__collapse-icon ${sidebarCollapsed ? 'collapsed' : ''}`}
