@@ -53,7 +53,7 @@ wss.on('connection', function connection(ws) {
         Object.keys(connections).forEach(connection => {
           if (connection !== lastMsgFrom) {
             // this is the main purpose of this socket bridge, it's crude, does not consider in flight txs
-            connection.send({
+            connections[connection].send({
               msg: 'refresh'
             });
           }
