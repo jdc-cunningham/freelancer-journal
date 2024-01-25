@@ -1,6 +1,6 @@
 - [ ] hours counter with details of client/what
   - should show on top bar
-- [ ] add sidebar collapse feature, needs icons
+- [x] add sidebar collapse feature, needs icons (01/24/2024 only used 1 icon)
 
 01/24/2024
 
