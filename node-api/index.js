@@ -46,19 +46,19 @@ wss.on('connection', function connection(ws) {
     
     if (msg?.from && !(msg.from in connections)) {
       connections[msg.from] = ws;
+    }
 
-      if (Object.keys(connections).length > 1) {
-        const lastMsgFrom = msg.from;
-  
-        Object.keys(connections).forEach(connection => {
-          if (connection !== lastMsgFrom) {
-            // this is the main purpose of this socket bridge, it's crude, does not consider in flight txs
-            connections[connection].send(JSON.stringify({
-              msg: 'refresh'
-            }));
-          }
-        })
-      }
+    if (Object.keys(connections).length > 1) {
+      const lastMsgFrom = msg.from;
+
+      Object.keys(connections).forEach(connection => {
+        if (connection !== lastMsgFrom) {
+          // this is the main purpose of this socket bridge, it's crude, does not consider in flight txs
+          connections[connection].send(JSON.stringify({
+            msg: 'refresh'
+          }));
+        }
+      })
     }
   });
 });
