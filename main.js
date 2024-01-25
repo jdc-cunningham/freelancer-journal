@@ -30,10 +30,11 @@ app.on('ready', () => {
     });
 
     // build menu from template
-    const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+    // causes an error about MenuItem needing a role
+    // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
 
     // insert menu
-    Menu.setApplicationMenu(mainMenu);
+    // Menu.setApplicationMenu(mainMenu);
 });
 
 // create menu template
