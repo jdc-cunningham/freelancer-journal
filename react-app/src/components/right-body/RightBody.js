@@ -82,11 +82,11 @@ const RightBody = (props) => {
           msg: 'refresh'
         }));
       } else {
-        alert('Failed to add client note: ' + res.data.msg);
+        alert('Failed to update client note: ' + res.data.msg);
       }
     })
     .catch((err) => {
-      alert(`Failed to add client note:\n${err.response.data?.msg}`);
+      alert('Failed to update client note');
       console.error(err);
     });
   }
