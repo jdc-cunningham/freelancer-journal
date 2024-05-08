@@ -13,7 +13,7 @@
     "start": "electron .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=mac-icon.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . freelancer-journal --overwrite --asar=true --platform=win32 --arch=ia32 --icon=windows-icon.ico --prune=true --out=release-builds --version-string.CompanyName=NA --version-string.FileDescription=CE --version-string.ProductName=\"Freelancer Journal\"",
-    "package-linux": "electron-packager . freelancer-journal --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
+    "package-linux": "electron-packager . freelancer-journal --overwrite --asar=true --platform=linux --arch=x64 --icon=icon256x256.png --prune=true --out=release-builds"
   },
   "author": "",
   "license": "MIT"
