@@ -14,6 +14,20 @@ Just adding a couple updates here
 
 The search is more useful than the sidebar thing but an easy win
 
+8:16 AM
+
+Alright did that small task.
+
+Now to do the more complicated one which is searching.
+
+I think I'll put a search icon next to "Add client" when you click that it becomes a full-width search bar with ability to cancel.
+
+Then you type in, does a partial left/right wildcard matching search.
+
+Renders cards as view only. It would be cool to go to it with the regular view but that's a lot of work too.
+
+Mostly need this feature to search if I looked into something before or not
+
 01/24/2024
 
 6:03 PM

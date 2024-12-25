@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-
 import './RightBody.scss'
-
 import DeleteIcon from '../../assets/icons/recycle-bin-line-icon.svg';
-
+import SearchIcon from '../../assets/icons/search-icon.svg';
+import CloseIcon from '../../assets/icons/close-line-icon.svg';
 import RightTopBar from '../right-top-bar/RightTopBar';
-
 import { prettyDate } from '../../utils';
 
 const RightBody = (props) => {
   const { setShowAddClientModal, openClient, baseApiPath, setRefresh, sidebarCollapsed, socketPath } = props;
+  
   const [updateTimeout, setUpdateTimeout] = useState(null);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const clientNotesRef = useRef(null);
   const socket = useRef(null);
@@ -124,7 +125,7 @@ const RightBody = (props) => {
           <img src="${DeleteIcon}" width="100%" alt="delete icon"/>
         </button>
       </div>
-      `  
+      `
     ));
 
     clientNotesRef.current.innerHTML = noteMarkup ? noteMarkup.join('') : '';
@@ -195,7 +196,28 @@ const RightBody = (props) => {
 
   const renderClient = () => (
     <div className="RightBody__client">
-      <h1>{openClient.name}</h1>
+      <div className="RightBody__client-title-search">
+        {!showSearch && <h1>{openClient.name}</h1>}
+        {!showSearch && <button
+          type="button"
+          className="RightBody__client-search-icon"
+          title="search client notes"
+          onClick={() => {
+            setShowSearch(!showSearch);
+          }}
+        >
+          <img src={SearchIcon} alt="search icon"/>
+        </button>}
+        {showSearch && <input
+          type="text"
+          className="RightBody__client-search-field"
+          placeholder="search"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />}
+        {showSearch && <button type="button" className="RightBody__client-search-cancel" onClick={() => setShowSearch(!showSearch)}>
+          <img src={CloseIcon} alt="close button" title="cancel"/>
+        </button>}
+      </div>
       <p>{openClient.details}</p>
       <button type="button" className="RightBody__client-add-note" onClick={() => addClientNote(openClient.id)}>Add note</button>
       <div ref={clientNotesRef}></div>
@@ -213,6 +235,14 @@ const RightBody = (props) => {
       socketPing(ws);
     }, 3000);
   }
+
+  useEffect(() => {
+    if (searchTerm.length) {
+      clientNotesRef.current.innerHTML = '';
+    } else {
+      renderClientNotes(openClient.clientNotes?.data);
+    }
+  }, [searchTerm]);
 
   useEffect(() => {
     if (openClient) {

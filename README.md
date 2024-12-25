@@ -34,7 +34,7 @@ The app should be functional
 
 ### Problems
 
-The caret is problematic on the `contentEditable` specifically when the state updates/repaints the content, the caret position goes to the beginning most times. I think a different approach is to use no coupled-state-rendering where data is still maintained on change but not painted by state.
+The caret is problematic on the `contentEditable` specifically when the state updates/repaints the content, the caret position goes to the beginning most times. I think a different approach is to use no coupled-state rendering where data is still maintained on change but not painted by state.
 
 The main issue is the range stuff and dom targets (nesting divs).
 

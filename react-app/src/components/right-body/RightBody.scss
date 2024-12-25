@@ -37,6 +37,65 @@
   padding: 0.5rem;
 }
 
+.RightBody__client-title-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+
+  h1 {
+    flex: 1;
+  }
+
+  button {
+    flex: 0;
+  }
+}
+
+.RightBody__client-search-icon {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+
+  img {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+}
+
+.RightBody__client-search-field {
+  width: calc(100% - 150px); // due to absolutely positioned Add client
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.RightBody__client-search-cancel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 0;
+  position: absolute;
+  top: 6.5px;
+  right: 153.25px;
+  z-index: 1;
+  cursor: pointer;
+
+  img {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
 .RightBody__client-view-add-client {
   position: absolute;
   top: calc(30px + 0.5rem);
