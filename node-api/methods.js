@@ -163,6 +163,32 @@ const searchClients = async (req, res) => {
   );
 };
 
+// does not consider client ownership but app designed for 1 user
+const searchClientNotes = async (req, res) => {
+  const { clientId, searchTerm } = req.body;
+  const partialSearchTermWildcard = '%' + searchTerm + '%';
+
+  pool.query(
+    `SELECT * FROM client_notes WHERE client_id = ? AND note LIKE ?`,
+    [clientId, partialSearchTermWildcard],
+    (err, qres) => {
+      if (err) {
+        console.error('failed to search client notes', err);
+
+        res.status(400).send({
+          err: true,
+          msg: 'failed to search client notes'
+        });
+      } else {
+        res.status(200).send({
+          err: false,
+          notes: qres
+        });
+      }
+    }
+  );
+};
+
 const deleteClient = async (req, res) => {
   const { id } = req.body;
 
@@ -366,5 +392,6 @@ module.exports = {
   addClientNote,
   updateClientNote,
   updateOpenClient,
-  deleteClientNote
+  deleteClientNote,
+  searchClientNotes
 }

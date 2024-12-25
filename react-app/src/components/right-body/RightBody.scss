@@ -96,10 +96,15 @@
   }
 }
 
+.RightBody__generic-msg {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+}
+
 .RightBody__client-view-add-client {
   position: absolute;
   top: calc(30px + 0.5rem);
-  right: 1.55rem;
+  right: 0.5rem;
   font-size: 1.25rem;
   border: 0;
   border-radius: 4px;

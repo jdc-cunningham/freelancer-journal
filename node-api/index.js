@@ -11,7 +11,7 @@ app.use(cors());
 const {
   addClient, getClient, searchClients, deleteClient, getLastOpenedClients,
   addOpenedClient, deleteLastOpenedClient, addClientNote, updateClientNote,
-  updateOpenClient, deleteClientNote
+  updateOpenClient, deleteClientNote, searchClientNotes
 } = require('./methods');
 
 app.use(express.json({limit: '50mb'}));
@@ -34,6 +34,7 @@ app.post('/add-client-note', addClientNote);
 app.post('/update-client-note', updateClientNote)
 app.post('/update-open-client', updateOpenClient);
 app.post('/delete-client-note', deleteClientNote);
+app.post('/search-client-notes', searchClientNotes);
 
 const wss = new WebSocket.Server({ port: 5136 });
 

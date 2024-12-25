@@ -10,13 +10,14 @@ import { prettyDate } from '../../utils';
 const RightBody = (props) => {
   const { setShowAddClientModal, openClient, baseApiPath, setRefresh, sidebarCollapsed, socketPath } = props;
   
-  const [updateTimeout, setUpdateTimeout] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const clientNotesRef = useRef(null);
   const socket = useRef(null);
   const updateTimeoutRef = useRef(null);
+  const clientIdref = useRef(0);
+  const searchTermTimeoutRef = useRef(null);
 
   const deleteClientNote = (clientNoteId, clientId, el) => {
     if (window.confirm("Delete entry?") === true) {
@@ -98,13 +99,11 @@ const RightBody = (props) => {
       const imgNode = document.createElement("img");
 
       imgNode.setAttribute("width", "100%");
-      
       imgNode.setAttribute("src", img.data);
 
       const parentEl = document.getElementById('replace-img').parentNode.parentNode;
 
       document.getElementById('replace-img').replaceWith(imgNode);
-
       updateClientNote(img.id, img.client_id, parentEl.innerHTML);
     }
   }
@@ -113,6 +112,11 @@ const RightBody = (props) => {
   // the drop event provides the image via datatransfer, then caret is determined,
   // temporary node inserted, replaced by async image load base64 callback
   const renderClientNotes = (clientNotes) => {
+    if (!Array.isArray(clientNotes)) {
+      clientNotesRef.current.innerHTML = `<h2 class="RightBody__generic-msg">${clientNotes}</h2>`;
+      return;
+    }
+
     const noteMarkup = clientNotes?.reverse().map(clientNote => (
       // nasty duplicate data attributes
       `
@@ -134,6 +138,7 @@ const RightBody = (props) => {
     document.querySelectorAll('.RightBody__client-note-editable').forEach(editable => {
       editable.addEventListener('keyup', (e) => {
         clearTimeout(updateTimeoutRef.current);
+
         updateTimeoutRef.current = setTimeout(() => {
           const id = editable.getAttribute('data-id');
           const clientId = editable.getAttribute('data-client-id');
@@ -168,6 +173,31 @@ const RightBody = (props) => {
       });
     });
   };
+
+  const searchClientNotes = () => {
+    axios.post(
+      `${baseApiPath}/search-client-notes`,
+      {
+        clientId: openClient.id,
+        searchTerm
+      }
+    )
+    .then((res) => {
+      if (res.status === 200) {
+        if (res.data.notes.length) {
+          renderClientNotes(res.data.notes);
+        } else {
+          renderClientNotes("No notes found");
+        }
+      } else {
+        alert('Failed to search client notes: ' + res.data.msg);
+      }
+    })
+    .catch((err) => {
+      alert(`Failed to search client notes:\n${err.response.data?.msg}`);
+      console.error(err);
+    });
+  }
 
   const addClientNote = (client_id) => {
     axios.post(
@@ -212,9 +242,18 @@ const RightBody = (props) => {
           type="text"
           className="RightBody__client-search-field"
           placeholder="search"
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            clearTimeout(searchTermTimeoutRef.current);
+
+            searchTermTimeoutRef.current = setTimeout(() => {
+              setSearchTerm(e.target.value);
+            }, 500);
+          }}
         />}
-        {showSearch && <button type="button" className="RightBody__client-search-cancel" onClick={() => setShowSearch(!showSearch)}>
+        {showSearch && <button type="button" className="RightBody__client-search-cancel" onClick={() => {
+          setSearchTerm("");
+          setShowSearch(!showSearch);
+        }}>
           <img src={CloseIcon} alt="close button" title="cancel"/>
         </button>}
       </div>
@@ -238,9 +277,12 @@ const RightBody = (props) => {
 
   useEffect(() => {
     if (searchTerm.length) {
-      clientNotesRef.current.innerHTML = '';
+      clientNotesRef.current.innerHTML = "";
+      searchClientNotes();
     } else {
-      renderClientNotes(openClient.clientNotes?.data);
+      if (openClient) {
+        renderClientNotes(openClient.clientNotes?.data);
+      }
     }
   }, [searchTerm]);
 
