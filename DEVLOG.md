@@ -28,6 +28,10 @@ Renders cards as view only. It would be cool to go to it with the regular view b
 
 Mostly need this feature to search if I looked into something before or not
 
+9:12 AM
+
+Alright that's it added a search feature
+
 01/24/2024
 
 6:03 PM
