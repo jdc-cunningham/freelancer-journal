@@ -2,20 +2,51 @@
   position: relative;
   width: 25%;
   height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-self: flex-start;
+  flex-direction: column;
   padding-right: 0.5rem;
   border-right: 1px solid #ccc;
 
   &.collapsed {
-    width: 40px;
+    width: 50px;
 
-    .LeftSidebar__collapse-icon {
-      left: 0;
+    .LeftSidebar__client {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      width: 40px;
+      padding: 0;
+
+      // make a square
+      &::before {
+        content: "";
+        display: block;
+        padding-top: 100%;
+      }
+
+      h2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+      }
     }
   }
 
   h3 {
     font-size: 1.125rem;
     margin-top: 0.5rem;
+    width: 100%;
   }
 }
 
@@ -48,10 +79,12 @@
 }
 
 .LeftSidebar__client {
+  width: 100%;
   border: 0;
   border-bottom: 1px solid #ccc;
   border-radius: 0;
   padding-left: 0;
+  text-align: left;
 }
 
 .LeftSidebar__collapse-icon {
@@ -75,6 +108,8 @@
   }
 
   &.collapsed {
+    left: 4px;
+
     img {
       transform: rotate(180deg);
     }

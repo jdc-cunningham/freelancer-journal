@@ -2,6 +2,18 @@
   - should show on top bar
 - [x] add sidebar collapse feature, needs icons (01/24/2024 only used 1 icon)
 
+12/25/2024
+
+7:44 AM
+
+Ahh... back on, finally working on this again
+
+I actually do use this app for myself and for freelance (two instances)
+
+Just adding a couple updates here
+
+The search is more useful than the sidebar thing but an easy win
+
 01/24/2024
 
 6:03 PM

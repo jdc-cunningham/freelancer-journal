@@ -41,8 +41,8 @@ const LeftSidebar = (props) => {
 
   const renderOpenedClientTabs = () => (
     openedClients.map((openedClient, index) => (
-      <div key={index} className="LeftSidebar__client" onClick={() => openSelectedClient(openedClient.client_id)}>
-        <h2>{openedClient.name}</h2>
+      <div key={index} className="LeftSidebar__client" title={sidebarCollapsed ? openedClient.name : "open"} onClick={() => openSelectedClient(openedClient.client_id)}>
+        <h2>{sidebarCollapsed ? openedClient.name.substring(0, 2) : openedClient.name}</h2>
       </div>
     ))
   );
@@ -158,7 +158,7 @@ const LeftSidebar = (props) => {
       {!sidebarCollapsed && searchTerm && !searchResults.length && <h2 className="LeftSidebar__no-clients-found">No clients found</h2>}
       {!sidebarCollapsed && searchTerm && searchResults.length > 0 && renderClientTabs()}
       {!sidebarCollapsed && !searchTerm && openedClients.length > 0 && <h3>Last viewed clients</h3>}
-      {!sidebarCollapsed && !searchTerm && openedClients.length > 0 && renderOpenedClientTabs()}
+      {!searchTerm && openedClients.length > 0 && renderOpenedClientTabs()}
       <button
         type="button"
         className={`LeftSidebar__collapse-icon ${sidebarCollapsed ? 'collapsed' : ''}`}
