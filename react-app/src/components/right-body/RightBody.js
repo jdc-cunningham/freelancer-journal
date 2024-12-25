@@ -16,7 +16,6 @@ const RightBody = (props) => {
   const clientNotesRef = useRef(null);
   const socket = useRef(null);
   const updateTimeoutRef = useRef(null);
-  const clientIdref = useRef(0);
   const searchTermTimeoutRef = useRef(null);
 
   const deleteClientNote = (clientNoteId, clientId, el) => {
@@ -281,7 +280,7 @@ const RightBody = (props) => {
       searchClientNotes();
     } else {
       if (openClient) {
-        renderClientNotes(openClient.clientNotes?.data);
+        renderClientNotes(openClient.clientNotes?.data.reverse());
       }
     }
   }, [searchTerm]);
